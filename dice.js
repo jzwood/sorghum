@@ -29,7 +29,7 @@ function prob(grain, desc, fxn) {
 
 const data = [
   prob("FONIO", "at least one 3", (xs) => xs.includes(3)),
-  prob("WHEAT", "2 of a kind", (xs) => dedupe(xs).length < xs.length),
+  prob("WHEAT", "exactly 2 of a kind", (xs) => dedupe(xs).length === 3),
   prob("BUCKWHEAT", "x, x+1, x+2", ([w, x, y, z]) => (x + 1 === y) && (w+1 === x || y + 1 === z)),
   prob("SPELT", "x + y = 7", ([w, x, y, z]) => [w + x, w + y, w + z, x + y, w + z, y + z].some(num => num === 7)),
   prob("OATS", "w + x = y + z", ([w, x, y, z]) => w + x === y + z || w + y === x + z || w + z === x + y),
@@ -41,7 +41,7 @@ const data = [
 ]
   .toSorted((a, b) => b.prob - a.prob)
   .map((x, i) =>  ({...x, points: i + 1}))
-  .map((x) => ({...x, payout: 1}))
+  .map((x) => ({...x, payout: Math.floor(100 / x.prob)}))
 
 console.table(data, ["points", "grain", "prob", "payout", "desc"])
 
