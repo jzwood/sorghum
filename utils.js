@@ -34,3 +34,12 @@ export function range(x, y = 0) {
 export function sum(arr) {
   return arr.reduce((a, b) => a + b, 0);
 }
+
+export function fib(n) {
+  const arr = [1, 1];
+  let m = n;
+  while (m--) {
+    arr.push(arr.at(-1) + arr.at(-2));
+  }
+  return arr.at(n);
+}
