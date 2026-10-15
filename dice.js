@@ -124,19 +124,20 @@ function formatProbs(data) {
 }
 
 function numToDie(num) {
+  const wrap = (char) => `<span class="die">${char}</span>`
   switch (num) {
     case 1:
-      return "⚀";
+      return wrap("⚀");
     case 2:
-      return "⚁";
+      return wrap("⚁");
     case 3:
-      return "⚂";
+      return wrap("⚂");
     case 4:
-      return "⚃";
+      return wrap("⚃");
     case 5:
-      return "⚄";
+      return wrap("⚄");
     case 6:
-      return "⚅";
+      return wrap("⚅");
   }
 }
 
@@ -147,7 +148,7 @@ function card({ group, fallow, cost, name, prob, payout, desc, buy }) {
     <div class="flex-grow"></div>
     <div class="group">
       <div>${buy ? 'group ' + group : ''}</div>
-      ${name === "WINDMILL" ? "" : `<div class="fallow">fallow<span class="die">${numToDie(fallow)}</span></div>`}
+      ${name === "WINDMILL" ? "" : `<div class="fallow">fallow ${numToDie(fallow)}</div>`}
     </div>
   </div>`;
 }
