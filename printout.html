@@ -24,8 +24,14 @@
     }
     body {
       font-family: helvetica;
+    }
+    .page {
       display: flex;
       flex-wrap: wrap;
+      break-inside: avoid-page;
+    }
+    .page-back {
+      flex-direction: row-reverse;
     }
     .header {
       display: flex;
@@ -38,7 +44,7 @@
       flex-direction: column;
       justify-content: space-between;
       outline: 1px dashed black;
-      padding: 0.5rem;
+      padding: 0.75rem 0.5rem 0 0.5rem;
       box-sizing: border-box;
       width: calc(100vw / 3);
     }
@@ -65,108 +71,203 @@
     <title>prinout</title>
   </head>
   <body>
-    <div class="card">
-      <h2>SPELT <span class="small">($1)</span></h2>
-      <div class="desc">any 2 add to 7 → $1</div>
-      <div class="group">
-        <div>grade 1</div>
-        <div class="fallow">fallow <span class="die">⚀</span></div>
+    <div class="page page-front">
+      <div class="card">
+        <h2>SPELT <span class="small">($1)</span></h2>
+        <div class="desc">any 2 add to 7 → $1</div>
+        <div class="group">
+          <div>grade 1</div>
+          <div class="fallow">fallow <span class="die">⚀</span></div>
+        </div>
+      </div>
+      <div class="card">
+        <h2>RYE <span class="small">($1)</span></h2>
+        <div class="desc">any 3 add to 10 or 11 → $1</div>
+        <div class="group">
+          <div>grade 1</div>
+          <div class="fallow">fallow <span class="die">⚁</span></div>
+        </div>
+      </div>
+      <div class="card">
+        <h2>WHEAT <span class="small">($1)</span></h2>
+        <div class="desc">exactly 2 of a kind → $1</div>
+        <div class="group">
+          <div>grade 1</div>
+          <div class="fallow">fallow <span class="die">⚂</span></div>
+        </div>
+      </div>
+      <div class="card">
+        <h2>AMARANTH <span class="small">($2)</span></h2>
+        <div class="desc">no 6s → $1</div>
+        <div class="group">
+          <div>grade 1</div>
+          <div class="fallow">fallow <span class="die">⚃</span></div>
+        </div>
+      </div>
+      <div class="card">
+        <h2>FARROW <span class="small">($2)</span></h2>
+        <div class="desc">max - min ≤ 3 → $1</div>
+        <div class="group">
+          <div>grade 2</div>
+          <div class="fallow">fallow <span class="die">⚄</span></div>
+        </div>
+      </div>
+      <div class="card">
+        <h2>TRITICALE <span class="small">($3)</span></h2>
+        <div class="desc">equal number of odd and evens → $2</div>
+        <div class="group">
+          <div>grade 2</div>
+          <div class="fallow">fallow <span class="die">⚅</span></div>
+        </div>
+      </div>
+      <div class="card">
+        <h2>FONIO <span class="small">($4)</span></h2>
+        <div class="desc">any 3 dice are even → $2</div>
+        <div class="group">
+          <div>grade 2</div>
+          <div class="fallow">fallow <span class="die">⚀</span></div>
+        </div>
+      </div>
+      <div class="card">
+        <h2>QUINOA <span class="small">($5)</span></h2>
+        <div class="desc">all different → $2</div>
+        <div class="group">
+          <div>grade 2</div>
+          <div class="fallow">fallow <span class="die">⚁</span></div>
+        </div>
+      </div>
+      <div class="card">
+        <h2>OATS <span class="small">($6)</span></h2>
+        <div class="desc">w + x = y + z → $2</div>
+        <div class="group">
+          <div>grade 3</div>
+          <div class="fallow">fallow <span class="die">⚂</span></div>
+        </div>
+      </div>
+      <div class="card">
+        <h2>BUCKWHEAT <span class="small">($7)</span></h2>
+        <div class="desc">run of 3 → $3</div>
+        <div class="group">
+          <div>grade 3</div>
+          <div class="fallow">fallow <span class="die">⚃</span></div>
+        </div>
+      </div>
+      <div class="card">
+        <h2>TEFF <span class="small">($8)</span></h2>
+        <div class="desc">no die is 1 larger than another → $3</div>
+        <div class="group">
+          <div>grade 3</div>
+          <div class="fallow">fallow <span class="die">⚄</span></div>
+        </div>
+      </div>
+      <div class="card">
+        <h2>BARLEY <span class="small">($10)</span></h2>
+        <div class="desc">all dice > 2 → $3</div>
+        <div class="group">
+          <div>grade 3</div>
+          <div class="fallow">fallow <span class="die">⚅</span></div>
+        </div>
+      </div>
+      <div class="card">
+        <h2>SORGHUM <span class="small">($14)</span></h2>
+        <div class="desc">3 of a kind → $4</div>
+        <div class="group">
+          <div>grade 4</div>
+          <div class="fallow">fallow <span class="die">⚀</span></div>
+        </div>
       </div>
     </div>
-    <div class="card">
-      <h2>RYE <span class="small">($1)</span></h2>
-      <div class="desc">any 3 add to 10 or 11 → $1</div>
-      <div class="group">
-        <div>grade 1</div>
-        <div class="fallow">fallow <span class="die">⚁</span></div>
+    <div class="page page-back">
+      <div class="card">
+        <h2>FALLOW SPELT</h2>
+        <div class="group">
+          <div></div>
+          <div class="fallow">unfallow <span class="die">⚀</span></div>
+        </div>
       </div>
-    </div>
-    <div class="card">
-      <h2>WHEAT <span class="small">($1)</span></h2>
-      <div class="desc">exactly 2 of a kind → $1</div>
-      <div class="group">
-        <div>grade 1</div>
-        <div class="fallow">fallow <span class="die">⚂</span></div>
+      <div class="card">
+        <h2>FALLOW RYE</h2>
+        <div class="group">
+          <div></div>
+          <div class="fallow">unfallow <span class="die">⚁</span></div>
+        </div>
       </div>
-    </div>
-    <div class="card">
-      <h2>AMARANTH <span class="small">($2)</span></h2>
-      <div class="desc">no 6s → $1</div>
-      <div class="group">
-        <div>grade 1</div>
-        <div class="fallow">fallow <span class="die">⚃</span></div>
+      <div class="card">
+        <h2>FALLOW WHEAT</h2>
+        <div class="group">
+          <div></div>
+          <div class="fallow">unfallow <span class="die">⚂</span></div>
+        </div>
       </div>
-    </div>
-    <div class="card">
-      <h2>FARROW <span class="small">($2)</span></h2>
-      <div class="desc">max - min ≤ 3 → $1</div>
-      <div class="group">
-        <div>grade 2</div>
-        <div class="fallow">fallow <span class="die">⚄</span></div>
+      <div class="card">
+        <h2>FALLOW AMARANTH</h2>
+        <div class="group">
+          <div></div>
+          <div class="fallow">unfallow <span class="die">⚃</span></div>
+        </div>
       </div>
-    </div>
-    <div class="card">
-      <h2>TRITICALE <span class="small">($3)</span></h2>
-      <div class="desc">equal number of odd and evens → $2</div>
-      <div class="group">
-        <div>grade 2</div>
-        <div class="fallow">fallow <span class="die">⚅</span></div>
+      <div class="card">
+        <h2>FALLOW FARROW</h2>
+        <div class="group">
+          <div></div>
+          <div class="fallow">unfallow <span class="die">⚄</span></div>
+        </div>
       </div>
-    </div>
-    <div class="card">
-      <h2>FONIO <span class="small">($4)</span></h2>
-      <div class="desc">any 3 dice are even → $2</div>
-      <div class="group">
-        <div>grade 2</div>
-        <div class="fallow">fallow <span class="die">⚀</span></div>
+      <div class="card">
+        <h2>FALLOW TRITICALE</h2>
+        <div class="group">
+          <div></div>
+          <div class="fallow">unfallow <span class="die">⚅</span></div>
+        </div>
       </div>
-    </div>
-    <div class="card">
-      <h2>QUINOA <span class="small">($5)</span></h2>
-      <div class="desc">all different → $2</div>
-      <div class="group">
-        <div>grade 2</div>
-        <div class="fallow">fallow <span class="die">⚁</span></div>
+      <div class="card">
+        <h2>FALLOW FONIO</h2>
+        <div class="group">
+          <div></div>
+          <div class="fallow">unfallow <span class="die">⚀</span></div>
+        </div>
       </div>
-    </div>
-    <div class="card">
-      <h2>OATS <span class="small">($6)</span></h2>
-      <div class="desc">w + x = y + z → $2</div>
-      <div class="group">
-        <div>grade 3</div>
-        <div class="fallow">fallow <span class="die">⚂</span></div>
+      <div class="card">
+        <h2>FALLOW QUINOA</h2>
+        <div class="group">
+          <div></div>
+          <div class="fallow">unfallow <span class="die">⚁</span></div>
+        </div>
       </div>
-    </div>
-    <div class="card">
-      <h2>BUCKWHEAT <span class="small">($7)</span></h2>
-      <div class="desc">run of 3 → $3</div>
-      <div class="group">
-        <div>grade 3</div>
-        <div class="fallow">fallow <span class="die">⚃</span></div>
+      <div class="card">
+        <h2>FALLOW OATS</h2>
+        <div class="group">
+          <div></div>
+          <div class="fallow">unfallow <span class="die">⚂</span></div>
+        </div>
       </div>
-    </div>
-    <div class="card">
-      <h2>TEFF <span class="small">($8)</span></h2>
-      <div class="desc">no die is 1 larger than another → $3</div>
-      <div class="group">
-        <div>grade 3</div>
-        <div class="fallow">fallow <span class="die">⚄</span></div>
+      <div class="card">
+        <h2>FALLOW BUCKWHEAT</h2>
+        <div class="group">
+          <div></div>
+          <div class="fallow">unfallow <span class="die">⚃</span></div>
+        </div>
       </div>
-    </div>
-    <div class="card">
-      <h2>BARLEY <span class="small">($10)</span></h2>
-      <div class="desc">all dice > 2 → $3</div>
-      <div class="group">
-        <div>grade 3</div>
-        <div class="fallow">fallow <span class="die">⚅</span></div>
+      <div class="card">
+        <h2>FALLOW TEFF</h2>
+        <div class="group">
+          <div></div>
+          <div class="fallow">unfallow <span class="die">⚄</span></div>
+        </div>
       </div>
-    </div>
-    <div class="card">
-      <h2>SORGHUM <span class="small">($14)</span></h2>
-      <div class="desc">3 of a kind → $4</div>
-      <div class="group">
-        <div>grade 4</div>
-        <div class="fallow">fallow <span class="die">⚀</span></div>
+      <div class="card">
+        <h2>FALLOW BARLEY</h2>
+        <div class="group">
+          <div></div>
+          <div class="fallow">unfallow <span class="die">⚅</span></div>
+        </div>
+      </div>
+      <div class="card">
+        <h2>FALLOW SORGHUM</h2>
+        <div class="group">
+          <div></div>
+          <div class="fallow">unfallow <span class="die">⚀</span></div>
+        </div>
       </div>
     </div>
   </body>

@@ -85,7 +85,7 @@ const data = [
   {
     name: "FONIO",
     buy: true,
-    desc: "any 3 dice are even",
+    desc: "any 3 are even",
     fn: (xs) => combos(xs, 3).some((ys) => ys.every((x) => x % 2 === 0)),
   },
   {
@@ -144,7 +144,7 @@ function numToDie(num) {
   }
 }
 
-function card({ group, fallow, cost, name, prob, payout, desc, buy }) {
+function cardFront({ group, fallow, cost, name, prob, payout, desc, buy }) {
   return `<div class="card">
     <h2>${name} <span class="small">($${cost})</span></h2>
     <div class="desc">${desc} → ${
@@ -157,6 +157,16 @@ function card({ group, fallow, cost, name, prob, payout, desc, buy }) {
       ? ""
       : `<div class="fallow">fallow ${numToDie(fallow)}</div>`
   }
+    </div>
+  </div>`;
+}
+
+function cardBack({ group, fallow, cost, name, prob, payout, desc, buy }) {
+  return `<div class="card">
+    <h2>FALLOW ${name}</h2>
+    <div class="group">
+      <div></div>
+      <div class="fallow">unfallow ${numToDie(fallow)}</div>
     </div>
   </div>`;
 }
@@ -177,7 +187,9 @@ function toHtml(data) {
           justify-content: center;
           gap: 0.25rem;
        }
-       body { font-family: helvetica; display: flex; flex-wrap: wrap; }
+       body { font-family: helvetica; }
+       .page { display: flex; flex-wrap: wrap; break-inside: avoid-page; }
+       .page-back { flex-direction: row-reverse; }
        .header { display: flex; justify-content: space-between; }
        .card {
           break-inside: avoid-page;
@@ -208,7 +220,8 @@ function toHtml(data) {
       <title>prinout</title>
     </head>
     <body>
-    ${data.map(card).join("")}
+    <div class="page page-front">${data.map(cardFront).join("")}</div>
+    <div class="page page-back">${data.map(cardBack).join("")}</div>
     </body>
     </html>
   `.trim());
