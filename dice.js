@@ -5,7 +5,7 @@ const DIE = range(6, 1);
 const DICE = [DIE, DIE, DIE, DIE];
 const SAMPLE_SPACE = sampleSpace(DICE);
 
-const data = [
+const starting = [
   { name: "MILLET", desc: "at least one 1", fn: (xs) => xs.includes(1) },
   { name: "MILLET", desc: "at least one 2", fn: (xs) => xs.includes(2) },
   { name: "MILLET", desc: "at least one 3", fn: (xs) => xs.includes(3) },
@@ -18,6 +18,9 @@ const data = [
   { name: "WINDMILL", desc: "black die is 4", fn: (xs) => true },
   { name: "WINDMILL", desc: "black die is 5", fn: (xs) => true },
   { name: "WINDMILL", desc: "black die is 6", fn: (xs) => true },
+];
+
+const data = [
   {
     name: "WHEAT",
     buy: true,
@@ -113,7 +116,7 @@ function formatProbs(data) {
       return {
         ...row,
         fallow: (index % 6) + 1,
-        group: Math.floor(index / 3) + 1,
+        group: Math.floor(index / 4) + 1,
         cost: Math.floor(Math.pow(100 / row.prob, 1.75)),
       };
     });
@@ -124,7 +127,7 @@ function formatProbs(data) {
 }
 
 function numToDie(num) {
-  const wrap = (char) => `<span class="die">${char}</span>`
+  const wrap = (char) => `<span class="die">${char}</span>`;
   switch (num) {
     case 1:
       return wrap("⚀");
@@ -144,11 +147,16 @@ function numToDie(num) {
 function card({ group, fallow, cost, name, prob, payout, desc, buy }) {
   return `<div class="card">
     <h2>${name} <span class="small">($${cost})</span></h2>
-    <div class="desc">${desc} → ${payout ? '$' + payout : '1 group X flour'}</div>
-    <div class="flex-grow"></div>
+    <div class="desc">${desc} → ${
+    payout ? "$" + payout : "1 group X flour"
+  }</div>
     <div class="group">
-      <div>${buy ? 'group ' + group : ''}</div>
-      ${name === "WINDMILL" ? "" : `<div class="fallow">fallow ${numToDie(fallow)}</div>`}
+      <div>${buy ? "grade " + group : ""}</div>
+      ${
+    name === "WINDMILL"
+      ? ""
+      : `<div class="fallow">fallow ${numToDie(fallow)}</div>`
+  }
     </div>
   </div>`;
 }
@@ -172,13 +180,15 @@ function toHtml(data) {
        body { font-family: helvetica; display: flex; flex-wrap: wrap; }
        .header { display: flex; justify-content: space-between; }
        .card {
-          page-break-inside: avoid;
-          width: calc(100vw / 3);
+          break-inside: avoid-page;
+          height: 10rem;
           display: flex;
           flex-direction: column;
+          justify-content: space-between;
           outline: 1px dashed black;
-          padding: 0.5rem;
+          padding: 0.75rem 0.5rem 0 0.5rem;
           box-sizing: border-box;
+          width: calc(100vw / 3);
         }
        .desc { text-align: center; font-size: 1.5rem; }
        .group {
