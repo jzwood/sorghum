@@ -12,6 +12,12 @@ const data = [
   { name: "MILLET", desc: "at least one 4", fn: (xs) => xs.includes(4) },
   { name: "MILLET", desc: "at least one 5", fn: (xs) => xs.includes(5) },
   { name: "MILLET", desc: "at least one 6", fn: (xs) => xs.includes(6) },
+  { name: "WINDMILL", desc: "black die is 1", fn: (xs) => true },
+  { name: "WINDMILL", desc: "black die is 2", fn: (xs) => true },
+  { name: "WINDMILL", desc: "black die is 3", fn: (xs) => true },
+  { name: "WINDMILL", desc: "black die is 4", fn: (xs) => true },
+  { name: "WINDMILL", desc: "black die is 5", fn: (xs) => true },
+  { name: "WINDMILL", desc: "black die is 6", fn: (xs) => true },
   {
     name: "WHEAT",
     buy: true,
@@ -69,7 +75,7 @@ const data = [
   {
     name: "FARROW",
     buy: true,
-    desc: "max - min <= 3",
+    desc: "max - min ≤ 3",
     fn: ([w, x, y, z]) => z - w <= 3,
   },
   { name: "AMARANTH", buy: true, desc: "no 6s", fn: (xs) => !xs.includes(6) },
@@ -87,45 +93,114 @@ const data = [
       xs.filter((x) => x % 2 === 0).length ===
         xs.filter((x) => x % 2 === 1).length,
   },
-  {
-    name: "STORM",
-    desc: "all 4 add to < 10 or > 18",
-    fn: (xs) => sum(xs) < 10 || sum(xs) > 18,
-  },
 ];
 
-function format({ name, desc, fn }) {
+function format({ name, desc, fn, ...rest }) {
   const count = SAMPLE_SPACE.filter(fn).length;
   const FACTOR = 130;
   const prob = parseFloat((FACTOR * count / SAMPLE_SPACE.length).toFixed(2));
   const payout = Math.floor(100 / prob);
-  return { name, prob, desc, payout };
+  return { name, prob, desc, payout, ...rest };
 }
 
 function formatProbs(data) {
   let table = data
-    .filter(({ buy }) => buy)
     .map(format)
-    .toSorted((a, b) => b.prob - a.prob)
+    .toSorted((a, b) => b.prob - a.prob);
+
+  const grains = table
     .map((row, index) => {
-      const costs = [1, 1, 1, 2, 2, 3, 3, 4, 4, 5, 8, 10, 13];
       return {
         ...row,
-        points: index,
-        cost: costs[index],
+        fallow: (index % 6) + 1,
+        group: Math.floor(index / 3) + 1,
+        cost: Math.floor(Math.pow(100 / row.prob, 1.75)),
       };
     });
-  console.table(table, ["points", "cost", "name", "prob", "payout", "desc"]);
 
-  table = data
-    .filter(({ buy }) => !buy)
-    .map(format);
-  console.table(table, ["name", "prob", "desc"]);
+  //console.table(grains, [ "group", "fallow", "cost", "name", "prob", "payout", "desc", ]);
+
+  Deno.writeTextFileSync("printout.html", toHtml(grains));
 }
 
-function simulateGame() {
-  const player1 = {};
-  const player2 = {};
+function numToDie(num) {
+  switch (num) {
+    case 1:
+      return "⚀";
+    case 2:
+      return "⚁";
+    case 3:
+      return "⚂";
+    case 4:
+      return "⚃";
+    case 5:
+      return "⚄";
+    case 6:
+      return "⚅";
+  }
+}
+
+function card({ group, fallow, cost, name, prob, payout, desc, buy }) {
+  return `<div class="card">
+    <h2>${name} <span class="small">($${cost})</span></h2>
+    <div class="desc">${desc} → ${payout ? '$' + payout : '1 group X flour'}</div>
+    <div class="flex-grow"></div>
+    <div class="group">
+      <div>${buy ? 'group ' + group : ''}</div>
+      ${name === "WINDMILL" ? "" : `<div class="fallow">fallow<span class="die">${numToDie(fallow)}</span></div>`}
+    </div>
+  </div>`;
+}
+
+function toHtml(data) {
+  return (`
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+      <meta charset="UTF-8">
+      <style>
+       * { margin: 0; padding: 0; border: 0; }
+       .flex-grow { flex-grow: 1; }
+       .small { font-size: 1rem; font-weight: normal; color: gray; }
+       h2 {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 0.25rem;
+       }
+       body { font-family: helvetica; display: flex; flex-wrap: wrap; }
+       .header { display: flex; justify-content: space-between; }
+       .card {
+          page-break-inside: avoid;
+          width: calc(100vw / 3);
+          display: flex;
+          flex-direction: column;
+          outline: 1px dashed black;
+          padding: 0.5rem;
+          box-sizing: border-box;
+        }
+       .desc { text-align: center; font-size: 1.5rem; }
+       .group {
+          font-size: 1.2rem;
+          text-transform: uppercase;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+       }
+       .fallow {
+          display: flex;
+          align-items: center;
+          gap: 0.5rem;
+        }
+       .die { font-size: 4rem; }
+      </style>
+      <title>prinout</title>
+    </head>
+    <body>
+    ${data.map(card).join("")}
+    </body>
+    </html>
+  `.trim());
 }
 
 formatProbs(data);
