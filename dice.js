@@ -6,18 +6,24 @@ const DICE = [DIE, DIE, DIE, DIE];
 const SAMPLE_SPACE = sampleSpace(DICE);
 
 const starting = [
-  { name: "MILLET", desc: "at least one 1", fn: (xs) => xs.includes(1) },
-  { name: "MILLET", desc: "at least one 2", fn: (xs) => xs.includes(2) },
-  { name: "MILLET", desc: "at least one 3", fn: (xs) => xs.includes(3) },
-  { name: "MILLET", desc: "at least one 4", fn: (xs) => xs.includes(4) },
-  { name: "MILLET", desc: "at least one 5", fn: (xs) => xs.includes(5) },
-  { name: "MILLET", desc: "at least one 6", fn: (xs) => xs.includes(6) },
-  { name: "WINDMILL", desc: "black die is 1", fn: (xs) => true },
-  { name: "WINDMILL", desc: "black die is 2", fn: (xs) => true },
-  { name: "WINDMILL", desc: "black die is 3", fn: (xs) => true },
-  { name: "WINDMILL", desc: "black die is 4", fn: (xs) => true },
-  { name: "WINDMILL", desc: "black die is 5", fn: (xs) => true },
-  { name: "WINDMILL", desc: "black die is 6", fn: (xs) => true },
+  { name: "MILLET", desc: "at least one 1", payout: 1, fallow: 1 },
+  { name: "MILLET", desc: "at least one 2", payout: 1, fallow: 2 },
+  { name: "MILLET", desc: "at least one 3", payout: 1, fallow: 3 },
+  { name: "MILLET", desc: "at least one 4", payout: 1, fallow: 4 },
+  { name: "MILLET", desc: "at least one 5", payout: 1, fallow: 5 },
+  { name: "MILLET", desc: "at least one 6", payout: 1, fallow: 6 },
+  { name: "WINDMILL", desc: "black die is 1" },
+  { name: "WINDMILL", desc: "black die is 2" },
+  { name: "WINDMILL", desc: "black die is 3" },
+  { name: "WINDMILL", desc: "black die is 4" },
+  { name: "WINDMILL", desc: "black die is 5" },
+  { name: "WINDMILL", desc: "black die is 6" },
+  { name: "WINDMILL", desc: "black die is 1" },
+  { name: "WINDMILL", desc: "black die is 2" },
+  { name: "WINDMILL", desc: "black die is 3" },
+  { name: "WINDMILL", desc: "black die is 4" },
+  { name: "WINDMILL", desc: "black die is 5" },
+  { name: "WINDMILL", desc: "black die is 6" },
 ];
 
 const data = [
@@ -106,12 +112,10 @@ function format({ name, desc, fn, ...rest }) {
   return { name, prob, desc, payout, ...rest };
 }
 
-function formatProbs(data) {
-  let table = data
+function print() {
+  const grains = data
     .map(format)
-    .toSorted((a, b) => b.prob - a.prob);
-
-  const grains = table
+    .toSorted((a, b) => b.prob - a.prob)
     .map((row, index) => {
       return {
         ...row,
@@ -121,9 +125,8 @@ function formatProbs(data) {
       };
     });
 
-  //console.table(grains, [ "group", "fallow", "cost", "name", "prob", "payout", "desc", ]);
-
-  Deno.writeTextFileSync("printout.html", toHtml(grains));
+  Deno.writeTextFileSync("publish/grains.html", toHtml(grains));
+  Deno.writeTextFileSync("publish/starting.html", toHtml(starting));
 }
 
 function numToDie(num) {
@@ -146,9 +149,9 @@ function numToDie(num) {
 
 function cardFront({ group, fallow, cost, name, prob, payout, desc, buy }) {
   return `<div class="card">
-    <h2>${name} <span class="small">($${cost})</span></h2>
+    <h2>${name} <span class="small">${cost ? `($${cost})` : ""}</span></h2>
     <div class="desc">${desc} → ${
-    payout ? "$" + payout : "1 group X flour"
+    payout ? "$" + payout : "1 grade x flour"
   }</div>
     <div class="group">
       <div>${buy ? "grade " + group : ""}</div>
@@ -163,11 +166,15 @@ function cardFront({ group, fallow, cost, name, prob, payout, desc, buy }) {
 
 function cardBack({ group, fallow, cost, name, prob, payout, desc, buy }) {
   return `<div class="card">
-    <h2>FALLOW ${name}</h2>
-    <div class="group">
+    ${
+    fallow
+      ? `<h2>FALLOW ${name}</h2>
+      <div class="group">
       <div></div>
       <div class="fallow">unfallow ${numToDie(fallow)}</div>
-    </div>
+    </div>`
+      : ""
+  }
   </div>`;
 }
 
@@ -213,7 +220,7 @@ function toHtml(data) {
        .fallow {
           display: flex;
           align-items: center;
-          gap: 0.5rem;
+          gap: 0.25rem;
         }
        .die { font-size: 4rem; }
       </style>
@@ -227,4 +234,4 @@ function toHtml(data) {
   `.trim());
 }
 
-formatProbs(data);
+print();
