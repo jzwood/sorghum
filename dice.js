@@ -6,24 +6,27 @@ const DICE = [DIE, DIE, DIE, DIE];
 const SAMPLE_SPACE = sampleSpace(DICE);
 
 const starting = [
-  { name: "MILLET", desc: "at least one 1", payout: 1, fallow: 1 },
-  { name: "MILLET", desc: "at least one 2", payout: 1, fallow: 2 },
-  { name: "MILLET", desc: "at least one 3", payout: 1, fallow: 3 },
-  { name: "MILLET", desc: "at least one 4", payout: 1, fallow: 4 },
-  { name: "MILLET", desc: "at least one 5", payout: 1, fallow: 5 },
-  { name: "MILLET", desc: "at least one 6", payout: 1, fallow: 6 },
-  { name: "WINDMILL", desc: "black die is 1" },
-  { name: "WINDMILL", desc: "black die is 2" },
-  { name: "WINDMILL", desc: "black die is 3" },
-  { name: "WINDMILL", desc: "black die is 4" },
-  { name: "WINDMILL", desc: "black die is 5" },
-  { name: "WINDMILL", desc: "black die is 6" },
-  { name: "WINDMILL", desc: "black die is 1" },
-  { name: "WINDMILL", desc: "black die is 2" },
-  { name: "WINDMILL", desc: "black die is 3" },
-  { name: "WINDMILL", desc: "black die is 4" },
-  { name: "WINDMILL", desc: "black die is 5" },
-  { name: "WINDMILL", desc: "black die is 6" },
+  { name: "MILLET", fallowCopy: '(≥ 4 fields) fallow', desc: "at least one 1", payout: 1, fallow: 1 },
+  { name: "MILLET", fallowCopy: '(≥ 4 fields) fallow', desc: "at least one 2", payout: 1, fallow: 2 },
+  { name: "MILLET", fallowCopy: '(≥ 4 fields) fallow', desc: "at least one 3", payout: 1, fallow: 3 },
+  { name: "MILLET", fallowCopy: '(≥ 4 fields) fallow', desc: "at least one 4", payout: 1, fallow: 4 },
+  //{ name: "MILLET", fallowCopy: '(≥ 4 fields) fallow', desc: "at least one 5", payout: 1, fallow: 5 },
+  //{ name: "MILLET", fallowCopy: '(≥ 4 fields) fallow', desc: "at least one 6", payout: 1, fallow: 6 },
+  { name: "WINDMILL", cost: "2/4/8", desc: "black die is 2 or 1" },
+  { name: "WINDMILL", cost: "2/4/8", desc: "black die is 3 or 1" },
+  { name: "WINDMILL", cost: "2/4/8", desc: "black die is 3 or 2" },
+  { name: "WINDMILL", cost: "2/4/8", desc: "black die is 4 or 1" },
+  { name: "WINDMILL", cost: "2/4/8", desc: "black die is 4 or 2" },
+  { name: "WINDMILL", cost: "2/4/8", desc: "black die is 4 or 3" },
+  { name: "WINDMILL", cost: "2/4/8", desc: "black die is 5 or 1" },
+  { name: "WINDMILL", cost: "2/4/8", desc: "black die is 5 or 2" },
+  { name: "WINDMILL", cost: "2/4/8", desc: "black die is 5 or 3" },
+  { name: "WINDMILL", cost: "2/4/8", desc: "black die is 5 or 4" },
+  { name: "WINDMILL", cost: "2/4/8", desc: "black die is 6 or 1" },
+  { name: "WINDMILL", cost: "2/4/8", desc: "black die is 6 or 2" },
+  { name: "WINDMILL", cost: "2/4/8", desc: "black die is 6 or 3" },
+  { name: "WINDMILL", cost: "2/4/8", desc: "black die is 6 or 4" },
+  //{ name: "WINDMILL", cost: "2/4/8", desc: "black die is 6 or 5" },
 ];
 
 const data = [
@@ -147,7 +150,9 @@ function numToDie(num) {
   }
 }
 
-function cardFront({ group, fallow, cost, name, prob, payout, desc, buy }) {
+function cardFront(
+  { group, fallowCopy, fallow, cost, name, prob, payout, desc, buy },
+) {
   return `<div class="card">
     <h2>${name} <span class="small">${cost ? `($${cost})` : ""}</span></h2>
     <div class="desc">${desc} → ${
@@ -158,7 +163,9 @@ function cardFront({ group, fallow, cost, name, prob, payout, desc, buy }) {
       ${
     name === "WINDMILL"
       ? ""
-      : `<div class="fallow">fallow ${numToDie(fallow)}</div>`
+      : `<div class="fallow">${fallowCopy ?? "fallow"} ${
+        numToDie(fallow)
+      }</div>`
   }
     </div>
   </div>`;
