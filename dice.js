@@ -5,11 +5,45 @@ const DIE = range(6, 1);
 const DICE = [DIE, DIE, DIE, DIE];
 const SAMPLE_SPACE = sampleSpace(DICE);
 
+const breads = [];
+
+const flour = [14, 10, 8, 4].flatMap((num, grade) =>
+  range(num).map((_, index) => ({
+    name: "Flour",
+    desc: `grade ${grade + 1}`,
+    vp: (100 * (grade + 1) + (index % 3 * 50)) + " victory points",
+  }))
+);
+
 const starting = [
-  { name: "MILLET", fallowCopy: '(≥ 4 fields) fallow', desc: "at least one 1", payout: 1, fallow: 1 },
-  { name: "MILLET", fallowCopy: '(≥ 4 fields) fallow', desc: "at least one 2", payout: 1, fallow: 2 },
-  { name: "MILLET", fallowCopy: '(≥ 4 fields) fallow', desc: "at least one 3", payout: 1, fallow: 3 },
-  { name: "MILLET", fallowCopy: '(≥ 4 fields) fallow', desc: "at least one 4", payout: 1, fallow: 4 },
+  {
+    name: "MILLET",
+    fallowCopy: "(≥ 4 fields) fallow",
+    desc: "at least one 1",
+    payout: 1,
+    fallow: 6,
+  },
+  {
+    name: "MILLET",
+    fallowCopy: "(≥ 4 fields) fallow",
+    desc: "at least one 2",
+    payout: 1,
+    fallow: 5,
+  },
+  {
+    name: "MILLET",
+    fallowCopy: "(≥ 4 fields) fallow",
+    desc: "at least one 3",
+    payout: 1,
+    fallow: 4,
+  },
+  {
+    name: "MILLET",
+    fallowCopy: "(≥ 4 fields) fallow",
+    desc: "at least one 4",
+    payout: 1,
+    fallow: 3,
+  },
   //{ name: "MILLET", fallowCopy: '(≥ 4 fields) fallow', desc: "at least one 5", payout: 1, fallow: 5 },
   //{ name: "MILLET", fallowCopy: '(≥ 4 fields) fallow', desc: "at least one 6", payout: 1, fallow: 6 },
   { name: "WINDMILL", cost: "2/4/8", desc: "black die is 2 or 1" },
@@ -128,8 +162,12 @@ function print() {
       };
     });
 
-  Deno.writeTextFileSync("publish/grains.html", toHtml(grains));
-  Deno.writeTextFileSync("publish/starting.html", toHtml(starting));
+  Deno.writeTextFileSync("publish/grains.html", toHtml("grain", grains));
+  Deno.writeTextFileSync("publish/starting.html", toHtml("starting", starting));
+  Deno.writeTextFileSync(
+    "publish/flour.html",
+    toHtml("flour", flour, { cols: 6 }),
+  );
 }
 
 function numToDie(num) {
@@ -155,24 +193,25 @@ function cardFront(
 ) {
   return `<div class="card">
     <h2>${name} <span class="small">${cost ? `($${cost})` : ""}</span></h2>
-    <div class="desc">${desc} → ${
-    payout ? "$" + payout : "1 grade x flour"
+    <div class="desc">${desc} ${
+    payout ? `→ ${payout ? "$" + payout : "1 grade x flour"}` : ""
   }</div>
     <div class="group">
       <div>${buy ? "grade " + group : ""}</div>
       ${
-    name === "WINDMILL"
-      ? ""
-      : `<div class="fallow">${fallowCopy ?? "fallow"} ${
+    fallow
+      ? `<div class="fallow">${fallowCopy ?? "fallow"} ${
         numToDie(fallow)
       }</div>`
+      : ""
   }
     </div>
   </div>`;
 }
 
-function cardBack({ group, fallow, cost, name, prob, payout, desc, buy }) {
+function cardBack({ group, fallow, cost, name, prob, payout, desc, buy, vp }) {
   return `<div class="card">
+    ${vp ? `<div class="desc">${vp}</div>` : ""}
     ${
     fallow
       ? `<h2>FALLOW ${name}</h2>
@@ -185,7 +224,8 @@ function cardBack({ group, fallow, cost, name, prob, payout, desc, buy }) {
   </div>`;
 }
 
-function toHtml(data) {
+function toHtml(title, data, opts = {}) {
+  const cols = opts.cols ?? 3;
   return (`
     <!DOCTYPE html>
     <html lang="en">
@@ -214,7 +254,7 @@ function toHtml(data) {
           outline: 1px dashed black;
           padding: 0.75rem 0.5rem 0 0.5rem;
           box-sizing: border-box;
-          width: calc(100vw / 3);
+          width: calc(100vw / ${cols});
         }
        .desc { text-align: center; font-size: 1.5rem; }
        .group {
@@ -231,7 +271,7 @@ function toHtml(data) {
         }
        .die { font-size: 4rem; }
       </style>
-      <title>prinout</title>
+      <title>${title}</title>
     </head>
     <body>
     <div class="page page-front">${data.map(cardFront).join("")}</div>
