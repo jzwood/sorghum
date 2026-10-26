@@ -1,4 +1,4 @@
-import { combos, dedupe, range, sampleSpace, sum } from "./utils.js";
+import { combos, dedupe, fib, range, sampleSpace, sum } from "./utils.js";
 
 // CONSTANTS
 const DIE = range(6, 1);
@@ -7,15 +7,15 @@ const SAMPLE_SPACE = sampleSpace(DICE);
 
 const breads = [];
 
-const flour = [32, 16, 8, 4].flatMap((num, grade) =>
+const flour = [32, 16, 10, 2].flatMap((num, grade) =>
   range(num).map((_, index) => ({
     name: "Flour",
     desc: `grade ${grade + 1}`,
-    vp: (10 * (grade + 1) + (index % 3 * 5)) + "pt",
+    vp: (10 * fib(grade + 1) + (index % 3 * 5)) + "pt",
   }))
 );
 
-const starting = [
+const millet = [
   {
     name: "MILLET",
     //fallowCopy: "(≥ 4 fields) fallow",
@@ -52,8 +52,20 @@ const starting = [
     payout: 1,
     fallow: 3,
   },
+  {
+    name: "MILLET",
+    //fallowCopy: "(≥ 4 fields) fallow",
+    desc: "at least one 5",
+    buy: true,
+    group: 1,
+    payout: 1,
+    fallow: 2,
+  },
   //{ name: "MILLET", fallowCopy: '(≥ 4 fields) fallow', desc: "at least one 5", payout: 1, fallow: 5 },
   //{ name: "MILLET", fallowCopy: '(≥ 4 fields) fallow', desc: "at least one 6", payout: 1, fallow: 6 },
+];
+
+const windmill = [
   { name: "WINDMILL", cost: "2/5/8", desc: "black die is 2 or 1" },
   { name: "WINDMILL", cost: "2/5/8", desc: "black die is 3 or 1" },
   { name: "WINDMILL", cost: "2/5/8", desc: "black die is 3 or 2" },
@@ -158,7 +170,7 @@ function format({ name, desc, fn, ...rest }) {
 }
 
 function print() {
-  const grains = data
+  let grains = data
     .map(format)
     .toSorted((a, b) => b.prob - a.prob)
     .map((row, index) => {
@@ -172,8 +184,13 @@ function print() {
       };
     });
 
+  grains = millet.concat(grains);
+
   Deno.writeTextFileSync("publish/grains.html", toHtml("grain", grains));
-  Deno.writeTextFileSync("publish/starting.html", toHtml("starting", starting));
+  Deno.writeTextFileSync(
+    "publish/windmills.html",
+    toHtml("windmills", windmill, { height: "9rem", cols: 2 }),
+  );
   Deno.writeTextFileSync(
     "publish/flour.html",
     toHtml("flour", flour, { cols: 10 }),
@@ -228,9 +245,9 @@ function cardBack(
     ${vp ? `<div class="desc">${vp}</div>` : ""}
     ${
     fallow
-      ? `<h2><span class="small">${
-        points ? (points - 5) + "pt" : ""
-      }</span><span>FALLOW ${name}</span><span></span></h2>
+      ? `<h2>${
+        points ? `<span class="small">${(points - 5) + "pt"}</span>` : ""
+      } <span>FALLOW ${name}</span></h2>
       <div class="group">
       <div></div>
       <div class="fallow">unfallow ${numToDie(fallow)}</div>
@@ -242,6 +259,7 @@ function cardBack(
 
 function toHtml(title, data, opts = {}) {
   const cols = opts.cols ?? 3;
+  const height = opts.height ?? "10rem";
   return (`
     <!DOCTYPE html>
     <html lang="en">
@@ -263,7 +281,7 @@ function toHtml(title, data, opts = {}) {
        .header { display: flex; justify-content: space-between; }
        .card {
           break-inside: avoid-page;
-          height: 10rem;
+          height: ${height};
           display: flex;
           flex-direction: column;
           justify-content: space-between;
