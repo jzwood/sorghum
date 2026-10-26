@@ -7,59 +7,67 @@ const SAMPLE_SPACE = sampleSpace(DICE);
 
 const breads = [];
 
-const flour = [14, 10, 8, 4].flatMap((num, grade) =>
+const flour = [32, 16, 8, 4].flatMap((num, grade) =>
   range(num).map((_, index) => ({
     name: "Flour",
     desc: `grade ${grade + 1}`,
-    vp: (100 * (grade + 1) + (index % 3 * 50)) + " victory points",
+    vp: (10 * (grade + 1) + (index % 3 * 5)) + "pt",
   }))
 );
 
 const starting = [
   {
     name: "MILLET",
-    fallowCopy: "(≥ 4 fields) fallow",
+    //fallowCopy: "(≥ 4 fields) fallow",
     desc: "at least one 1",
+    buy: true,
+    group: 1,
     payout: 1,
     fallow: 6,
   },
   {
     name: "MILLET",
-    fallowCopy: "(≥ 4 fields) fallow",
+    //fallowCopy: "(≥ 4 fields) fallow",
     desc: "at least one 2",
+    buy: true,
+    group: 1,
     payout: 1,
     fallow: 5,
   },
   {
     name: "MILLET",
-    fallowCopy: "(≥ 4 fields) fallow",
+    //fallowCopy: "(≥ 4 fields) fallow",
     desc: "at least one 3",
+    buy: true,
+    group: 1,
     payout: 1,
     fallow: 4,
   },
   {
     name: "MILLET",
-    fallowCopy: "(≥ 4 fields) fallow",
+    //fallowCopy: "(≥ 4 fields) fallow",
     desc: "at least one 4",
+    buy: true,
+    group: 1,
     payout: 1,
     fallow: 3,
   },
   //{ name: "MILLET", fallowCopy: '(≥ 4 fields) fallow', desc: "at least one 5", payout: 1, fallow: 5 },
   //{ name: "MILLET", fallowCopy: '(≥ 4 fields) fallow', desc: "at least one 6", payout: 1, fallow: 6 },
-  { name: "WINDMILL", cost: "2/4/8", desc: "black die is 2 or 1" },
-  { name: "WINDMILL", cost: "2/4/8", desc: "black die is 3 or 1" },
-  { name: "WINDMILL", cost: "2/4/8", desc: "black die is 3 or 2" },
-  { name: "WINDMILL", cost: "2/4/8", desc: "black die is 4 or 1" },
-  { name: "WINDMILL", cost: "2/4/8", desc: "black die is 4 or 2" },
-  { name: "WINDMILL", cost: "2/4/8", desc: "black die is 4 or 3" },
-  { name: "WINDMILL", cost: "2/4/8", desc: "black die is 5 or 1" },
-  { name: "WINDMILL", cost: "2/4/8", desc: "black die is 5 or 2" },
-  { name: "WINDMILL", cost: "2/4/8", desc: "black die is 5 or 3" },
-  { name: "WINDMILL", cost: "2/4/8", desc: "black die is 5 or 4" },
-  { name: "WINDMILL", cost: "2/4/8", desc: "black die is 6 or 1" },
-  { name: "WINDMILL", cost: "2/4/8", desc: "black die is 6 or 2" },
-  { name: "WINDMILL", cost: "2/4/8", desc: "black die is 6 or 3" },
-  { name: "WINDMILL", cost: "2/4/8", desc: "black die is 6 or 4" },
+  { name: "WINDMILL", cost: "2/5/8", desc: "black die is 2 or 1" },
+  { name: "WINDMILL", cost: "2/5/8", desc: "black die is 3 or 1" },
+  { name: "WINDMILL", cost: "2/5/8", desc: "black die is 3 or 2" },
+  { name: "WINDMILL", cost: "2/5/8", desc: "black die is 4 or 1" },
+  { name: "WINDMILL", cost: "2/5/8", desc: "black die is 4 or 2" },
+  { name: "WINDMILL", cost: "2/5/8", desc: "black die is 4 or 3" },
+  { name: "WINDMILL", cost: "2/5/8", desc: "black die is 5 or 1" },
+  { name: "WINDMILL", cost: "2/5/8", desc: "black die is 5 or 2" },
+  { name: "WINDMILL", cost: "2/5/8", desc: "black die is 5 or 3" },
+  { name: "WINDMILL", cost: "2/5/8", desc: "black die is 5 or 4" },
+  { name: "WINDMILL", cost: "2/5/8", desc: "black die is 6 or 1" },
+  { name: "WINDMILL", cost: "2/5/8", desc: "black die is 6 or 2" },
+  { name: "WINDMILL", cost: "2/5/8", desc: "black die is 6 or 3" },
+  { name: "WINDMILL", cost: "2/5/8", desc: "black die is 6 or 4" },
   //{ name: "WINDMILL", cost: "2/4/8", desc: "black die is 6 or 5" },
 ];
 
@@ -154,10 +162,12 @@ function print() {
     .map(format)
     .toSorted((a, b) => b.prob - a.prob)
     .map((row, index) => {
+      const grade = Math.floor(index / 4) + 1;
       return {
         ...row,
+        group: grade,
+        points: grade * 10,
         fallow: (index % 6) + 1,
-        group: Math.floor(index / 4) + 1,
         cost: Math.floor(Math.pow(100 / row.prob, 1.75)),
       };
     });
@@ -166,7 +176,7 @@ function print() {
   Deno.writeTextFileSync("publish/starting.html", toHtml("starting", starting));
   Deno.writeTextFileSync(
     "publish/flour.html",
-    toHtml("flour", flour, { cols: 6 }),
+    toHtml("flour", flour, { cols: 10 }),
   );
 }
 
@@ -189,10 +199,12 @@ function numToDie(num) {
 }
 
 function cardFront(
-  { group, fallowCopy, fallow, cost, name, prob, payout, desc, buy },
+  { group, fallowCopy, fallow, cost, name, prob, payout, desc, buy, points },
 ) {
-  return `<div class="card">
-    <h2>${name} <span class="small">${cost ? `($${cost})` : ""}</span></h2>
+  return `<div class="card card-front">
+    <h2><span class="small">${
+    points ? points + "pt" : ""
+  }</span> ${name} <span class="small">${cost ? `$${cost}` : ""}</span></h2>
     <div class="desc">${desc} ${
     payout ? `→ ${payout ? "$" + payout : "1 grade x flour"}` : ""
   }</div>
@@ -209,12 +221,16 @@ function cardFront(
   </div>`;
 }
 
-function cardBack({ group, fallow, cost, name, prob, payout, desc, buy, vp }) {
-  return `<div class="card">
+function cardBack(
+  { group, fallow, cost, name, prob, payout, desc, buy, vp, points },
+) {
+  return `<div class="card card-back">
     ${vp ? `<div class="desc">${vp}</div>` : ""}
     ${
     fallow
-      ? `<h2>FALLOW ${name}</h2>
+      ? `<h2><span class="small">${
+        points ? (points - 5) + "pt" : ""
+      }</span><span>FALLOW ${name}</span><span></span></h2>
       <div class="group">
       <div></div>
       <div class="fallow">unfallow ${numToDie(fallow)}</div>
@@ -238,7 +254,7 @@ function toHtml(title, data, opts = {}) {
        h2 {
           display: flex;
           align-items: center;
-          justify-content: center;
+          justify-content: space-between;
           gap: 0.25rem;
        }
        body { font-family: helvetica; }
@@ -266,6 +282,7 @@ function toHtml(title, data, opts = {}) {
        }
        .fallow {
           display: flex;
+          flex-wrap: wrap;
           align-items: center;
           gap: 0.25rem;
         }
