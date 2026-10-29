@@ -156,6 +156,12 @@ const data = [
     fn: (xs) => dedupe(xs).length <= 2,
   },
   {
+    name: "KHORASAN",
+    buy: true,
+    desc: "4 of a kind or 2 sets of 2 of a kind",
+    fn: (xs) => dedupe(xs).length < 3,
+  },
+  {
     name: "FARROW",
     buy: true,
     desc: "max - min ≤ 3",
@@ -176,14 +182,41 @@ const data = [
       xs.filter((x) => x % 2 === 0).length ===
         xs.filter((x) => x % 2 === 1).length,
   },
+  {
+    name: "BULGUR",
+    buy: true,
+    desc: "any 3 are odd",
+    fn: (xs) => combos(xs, 3).some((ys) => ys.every((x) => x % 2 === 1)),
+  },
+  {
+    name: "WILD RICE",
+    buy: true,
+    desc: "max - min > 3",
+    fn: ([w, x, y, z]) => z - w > 3,
+  },
+  {
+    name: "EINKORN",
+    buy: true,
+    desc: "any 3 add to ≤ 8",
+    fn: ([w, x, y, _]) => w + x + y <= 8,
+  },
+  {
+    name: "DURUM",
+    buy: true,
+    desc: "any 2 add to ≥ 10",
+    fn: ([w, x, y, z]) => y + z >= 10,
+  },
 ];
 
 function format({ name, desc, fn, ...rest }) {
   const count = SAMPLE_SPACE.filter(fn).length;
-  const FACTOR = 130;
-  const prob = parseFloat((FACTOR * count / SAMPLE_SPACE.length).toFixed(2));
-  const payout = Math.floor(100 / prob);
-  return { name, prob, desc, payout, ...rest };
+  const FACTOR = 1.3;
+  const prob = 100 * count / SAMPLE_SPACE.length;
+  const cost = Math.floor(
+    Math.pow(100 / parseFloat((FACTOR * prob).toFixed(2)), 1.75),
+  );
+  const payout = Math.floor(100 / parseFloat((FACTOR * prob).toFixed(2)));
+  return { name, prob: prob.toFixed(2), desc, payout, cost, ...rest };
 }
 
 function print() {
@@ -197,12 +230,13 @@ function print() {
         group: grade,
         points: grade * 10,
         fallow: (index % 6) + 1,
-        cost: Math.floor(Math.pow(100 / row.prob, 1.75)),
+        cost: row.cost,
       };
     });
 
-  grains = millet.concat(grains);
+  console.table(grains, ["points", "cost", "name", "prob", "payout", "desc"]);
 
+  Deno.writeTextFileSync("publish/millet.html", toHtml("millet", millet));
   Deno.writeTextFileSync("publish/grains.html", toHtml("grain", grains));
   Deno.writeTextFileSync(
     "publish/windmills.html",
@@ -233,7 +267,7 @@ function numToDie(num) {
 }
 
 function cardFront(
-  { group, fallowCopy, fallow, cost, name, prob, payout, desc, buy, points },
+  { group, fallowCopy, fallow, cost, name, payout, desc, buy, points },
 ) {
   return `<div class="card card-front">
     <h2><span class="small">${
@@ -256,7 +290,7 @@ function cardFront(
 }
 
 function cardBack(
-  { group, fallow, cost, name, prob, payout, desc, buy, vp, points },
+  { group, fallow, cost, name, payout, desc, buy, vp, points },
 ) {
   return `<div class="card card-back">
     ${vp ? `<div class="desc">${vp}</div>` : ""}
@@ -295,7 +329,7 @@ function toHtml(title, data, opts = {}) {
           gap: 0.25rem;
        }
        body { font-family: helvetica; }
-       .page { display: flex; flex-wrap: wrap; break-inside: avoid-page; }
+       .page { display: flex; flex-wrap: wrap; align-content: flex-start; break-inside: avoid-page; min-height: 100vh; }
        .page-back { flex-direction: row-reverse; }
        .header { display: flex; justify-content: space-between; }
        .card {
