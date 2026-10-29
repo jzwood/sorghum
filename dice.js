@@ -15,10 +15,18 @@ const flour = [32, 16, 10, 2].flatMap((num, grade) =>
   }))
 );
 
+const fallowCopy = `
+<div style="display: flex; flex-direction: column;">
+  <span>fallow</span>
+  <span style="font-size: 0.75rem">(≥ 4 fields)</span>
+</div>
+
+`;
+
 const millet = [
   {
     name: "MILLET",
-    //fallowCopy: "(≥ 4 fields) fallow",
+    fallowCopy,
     desc: "at least one 1",
     buy: true,
     group: 1,
@@ -27,7 +35,7 @@ const millet = [
   },
   {
     name: "MILLET",
-    //fallowCopy: "(≥ 4 fields) fallow",
+    fallowCopy,
     desc: "at least one 2",
     buy: true,
     group: 1,
@@ -36,7 +44,7 @@ const millet = [
   },
   {
     name: "MILLET",
-    //fallowCopy: "(≥ 4 fields) fallow",
+    fallowCopy,
     desc: "at least one 3",
     buy: true,
     group: 1,
@@ -45,7 +53,8 @@ const millet = [
   },
   {
     name: "MILLET",
-    //fallowCopy: "(≥ 4 fields) fallow",
+    fallowCopy,
+    desc: "at least one 3",
     desc: "at least one 4",
     buy: true,
     group: 1,
@@ -54,15 +63,22 @@ const millet = [
   },
   {
     name: "MILLET",
-    //fallowCopy: "(≥ 4 fields) fallow",
+    fallowCopy,
     desc: "at least one 5",
     buy: true,
     group: 1,
     payout: 1,
     fallow: 2,
   },
-  //{ name: "MILLET", fallowCopy: '(≥ 4 fields) fallow', desc: "at least one 5", payout: 1, fallow: 5 },
-  //{ name: "MILLET", fallowCopy: '(≥ 4 fields) fallow', desc: "at least one 6", payout: 1, fallow: 6 },
+  {
+    name: "MILLET",
+    fallowCopy,
+    desc: "at least one 6",
+    buy: true,
+    group: 1,
+    payout: 1,
+    fallow: 1,
+  },
 ];
 
 const windmill = [
@@ -80,7 +96,8 @@ const windmill = [
   { name: "WINDMILL", cost: "2/5/8", desc: "black die is 6 or 2" },
   { name: "WINDMILL", cost: "2/5/8", desc: "black die is 6 or 3" },
   { name: "WINDMILL", cost: "2/5/8", desc: "black die is 6 or 4" },
-  //{ name: "WINDMILL", cost: "2/4/8", desc: "black die is 6 or 5" },
+  { name: "WINDMILL", cost: "2/4/8", desc: "black die is 6 or 5" },
+  { name: "GRAIN SILO", cost: "1/2/4", desc: "black die 1" },
 ];
 
 const data = [
@@ -189,11 +206,11 @@ function print() {
   Deno.writeTextFileSync("publish/grains.html", toHtml("grain", grains));
   Deno.writeTextFileSync(
     "publish/windmills.html",
-    toHtml("windmills", windmill, { height: "9rem", cols: 2 }),
+    toHtml("windmills", windmill, { height: "8rem", cols: 2 }),
   );
   Deno.writeTextFileSync(
     "publish/flour.html",
-    toHtml("flour", flour, { cols: 10 }),
+    toHtml("flour", flour, { cols: 6, height: "6rem" }),
   );
 }
 
@@ -245,9 +262,11 @@ function cardBack(
     ${vp ? `<div class="desc">${vp}</div>` : ""}
     ${
     fallow
-      ? `<h2>${
-        points ? `<span class="small">${(points - 5) + "pt"}</span>` : ""
-      } <span>FALLOW ${name}</span></h2>
+      ? `<h2>
+      <span class="small">${points ? (points - 5) + "pt" : ""}</span>
+      <span style="text-align: center;">FALLOW ${name}</span>
+      <span></span>
+      </h2>
       <div class="group">
       <div></div>
       <div class="fallow">unfallow ${numToDie(fallow)}</div>
@@ -300,7 +319,6 @@ function toHtml(title, data, opts = {}) {
        }
        .fallow {
           display: flex;
-          flex-wrap: wrap;
           align-items: center;
           gap: 0.25rem;
         }
