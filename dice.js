@@ -54,7 +54,6 @@ const millet = [
   {
     name: "MILLET",
     fallowCopy,
-    desc: "at least one 3",
     desc: "at least one 4",
     buy: true,
     group: 1,
@@ -82,22 +81,98 @@ const millet = [
 ];
 
 const windmill = [
-  { name: "WINDMILL", cost: "2/5/8", desc: "black die is 2 or 1" },
-  { name: "WINDMILL", cost: "2/5/8", desc: "black die is 3 or 1" },
-  { name: "WINDMILL", cost: "2/5/8", desc: "black die is 3 or 2" },
-  { name: "WINDMILL", cost: "2/5/8", desc: "black die is 4 or 1" },
-  { name: "WINDMILL", cost: "2/5/8", desc: "black die is 4 or 2" },
-  { name: "WINDMILL", cost: "2/5/8", desc: "black die is 4 or 3" },
-  { name: "WINDMILL", cost: "2/5/8", desc: "black die is 5 or 1" },
-  { name: "WINDMILL", cost: "2/5/8", desc: "black die is 5 or 2" },
-  { name: "WINDMILL", cost: "2/5/8", desc: "black die is 5 or 3" },
-  { name: "WINDMILL", cost: "2/5/8", desc: "black die is 5 or 4" },
-  { name: "WINDMILL", cost: "2/5/8", desc: "black die is 6 or 1" },
-  { name: "WINDMILL", cost: "2/5/8", desc: "black die is 6 or 2" },
-  { name: "WINDMILL", cost: "2/5/8", desc: "black die is 6 or 3" },
-  { name: "WINDMILL", cost: "2/5/8", desc: "black die is 6 or 4" },
-  { name: "WINDMILL", cost: "2/4/8", desc: "black die is 6 or 5" },
-  { name: "GRAIN SILO", cost: "1/2/4", desc: "black die 1" },
+  {
+    name: "WINDMILL",
+    cost: "2/5/8",
+    desc: "black die is 1 or 2",
+    payout: "mill 1 flour",
+  },
+  {
+    name: "WINDMILL",
+    cost: "2/5/8",
+    desc: "black die is 1 or 3",
+    payout: "mill 1 flour",
+  },
+  {
+    name: "WINDMILL",
+    cost: "2/5/8",
+    desc: "black die is 1 or 4",
+    payout: "mill 1 flour",
+  },
+  {
+    name: "WINDMILL",
+    cost: "2/5/8",
+    desc: "black die is 1 or 5",
+    payout: "mill 1 flour",
+  },
+  {
+    name: "WINDMILL",
+    cost: "2/5/8",
+    desc: "black die is 1 or 6",
+    payout: "mill 1 flour",
+  },
+  {
+    name: "WINDMILL",
+    cost: "2/5/8",
+    desc: "black die is 2 or 3",
+    payout: "mill 1 flour",
+  },
+  {
+    name: "WINDMILL",
+    cost: "2/5/8",
+    desc: "black die is 2 or 4",
+    payout: "mill 1 flour",
+  },
+  {
+    name: "WINDMILL",
+    cost: "2/5/8",
+    desc: "black die is 2 or 5",
+    payout: "mill 1 flour",
+  },
+
+  {
+    name: "WINDMILL",
+    cost: "2/5/8",
+    desc: "black die is 2 or 6",
+    payout: "mill 1 flour",
+  },
+
+  {
+    name: "WINDMILL",
+    cost: "2/5/8",
+    desc: "black die is 3 or 4",
+    payout: "mill 1 flour",
+  },
+  {
+    name: "WINDMILL",
+    cost: "2/5/8",
+    desc: "black die is 3 or 5",
+    payout: "mill 1 flour",
+  },
+  {
+    name: "WINDMILL",
+    cost: "2/5/8",
+    desc: "black die is 3 or 6",
+    payout: "mill 1 flour",
+  },
+  {
+    name: "WINDMILL",
+    cost: "2/5/8",
+    desc: "black die is 4 or 5",
+    payout: "mill 1 flour",
+  },
+  {
+    name: "WINDMILL",
+    cost: "2/5/8",
+    desc: "black die is 4 or 6",
+    payout: "mill 1 flour",
+  },
+  {
+    name: "WINDMILL",
+    cost: "2/5/8",
+    desc: "black die is 5 or 6",
+    payout: "mill 1 flour",
+  },
 ];
 
 const data = [
@@ -191,8 +266,8 @@ const data = [
   {
     name: "WILD RICE",
     buy: true,
-    desc: "max - min > 3",
-    fn: ([w, x, y, z]) => z - w > 3,
+    desc: "max - min ≥ 4",
+    fn: ([w, x, y, z]) => z - w >= 4,
   },
   {
     name: "EINKORN",
@@ -240,7 +315,7 @@ function print() {
   Deno.writeTextFileSync("publish/grains.html", toHtml("grain", grains));
   Deno.writeTextFileSync(
     "publish/windmills.html",
-    toHtml("windmills", windmill, { height: "8rem", cols: 2 }),
+    toHtml("windmills", windmill, { height: "7.5rem", cols: 2 }),
   );
   Deno.writeTextFileSync(
     "publish/flour.html",
@@ -274,7 +349,7 @@ function cardFront(
     points ? points + "pt" : ""
   }</span> ${name} <span class="small">${cost ? `$${cost}` : ""}</span></h2>
     <div class="desc">${desc} ${
-    payout ? `→ ${payout ? "$" + payout : "1 grade x flour"}` : ""
+    payout ? `→ ${typeof payout === "number" ? "$" + payout : payout}` : ""
   }</div>
     <div class="group">
       <div>${buy ? "grade " + group : ""}</div>
