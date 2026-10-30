@@ -129,14 +129,12 @@ const windmill = [
     desc: "black die is 2 or 5",
     payout: "mill 1 flour",
   },
-
   {
     name: "WINDMILL",
     cost: "2/5/8",
     desc: "black die is 2 or 6",
     payout: "mill 1 flour",
   },
-
   {
     name: "WINDMILL",
     cost: "2/5/8",
@@ -172,6 +170,84 @@ const windmill = [
     cost: "2/5/8",
     desc: "black die is 5 or 6",
     payout: "mill 1 flour",
+  },
+];
+
+const silos = [
+  {
+    name: "SILO",
+    cost: "1/2/4",
+    desc: "black die 1",
+    payout: "store up to 3 overflow grain",
+  },
+  {
+    name: "SILO",
+    cost: "1/2/4",
+    desc: "black die 2",
+    payout: "store up to 3 overflow grain",
+  },
+  {
+    name: "SILO",
+    cost: "1/2/4",
+    desc: "black die 3",
+    payout: "store up to 3 overflow grain",
+  },
+  {
+    name: "SILO",
+    cost: "1/2/4",
+    desc: "black die 4",
+    payout: "store up to 3 overflow grain",
+  },
+  {
+    name: "SILO",
+    cost: "1/2/4",
+    desc: "black die 5",
+    payout: "store up to 3 overflow grain",
+  },
+  {
+    name: "SILO",
+    cost: "1/2/4",
+    desc: "black die 6",
+    payout: "store up to 3 overflow grain",
+  },
+];
+
+const cropRotation = [
+  {
+    name: "CROP ROTATION",
+    cost: "1/2/4",
+    desc: "black die 1",
+    payout: "unfallow 2 fields",
+  },
+  {
+    name: "CROP ROTATION",
+    cost: "1/2/4",
+    desc: "black die 2",
+    payout: "unfallow 2 fields",
+  },
+  {
+    name: "CROP ROTATION",
+    cost: "1/2/4",
+    desc: "black die 3",
+    payout: "unfallow 2 fields",
+  },
+  {
+    name: "CROP ROTATION",
+    cost: "1/2/4",
+    desc: "black die 4",
+    payout: "unfallow 2 fields",
+  },
+  {
+    name: "CROP ROTATION",
+    cost: "1/2/4",
+    desc: "black die 5",
+    payout: "unfallow 2 fields",
+  },
+  {
+    name: "CROP ROTATION",
+    cost: "1/2/4",
+    desc: "black die 6",
+    payout: "unfallow 2 fields",
   },
 ];
 
