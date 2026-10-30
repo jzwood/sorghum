@@ -183,37 +183,37 @@ const silos = [
     name: "SILO",
     cost: "$1/2/4",
     desc: "black die 1",
-    payout: "store up to 3 overflow grain",
+    payout: "store ≤ 3 grain",
   },
   {
     name: "SILO",
     cost: "$1/2/4",
     desc: "black die 2",
-    payout: "store up to 3 overflow grain",
+    payout: "store ≤ 3 grain",
   },
   {
     name: "SILO",
     cost: "$1/2/4",
     desc: "black die 3",
-    payout: "store up to 3 overflow grain",
+    payout: "store ≤ 3 grain",
   },
   {
     name: "SILO",
     cost: "$1/2/4",
     desc: "black die 4",
-    payout: "store up to 3 overflow grain",
+    payout: "store ≤ 3 grain",
   },
   {
     name: "SILO",
     cost: "$1/2/4",
     desc: "black die 5",
-    payout: "store up to 3 overflow grain",
+    payout: "store ≤ 3 grain",
   },
   {
     name: "SILO",
     cost: "$1/2/4",
     desc: "black die 6",
-    payout: "store up to 3 overflow grain",
+    payout: "store ≤ 3 grain",
   },
 ];
 
