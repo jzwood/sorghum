@@ -1,18 +1,29 @@
-import { combos, dedupe, fib, range, sampleSpace, sum } from "./utils.js";
+import {
+  combos,
+  dedupe,
+  fib,
+  range,
+  roundTo,
+  sampleSpace,
+  sum,
+} from "./utils.js";
 
 // CONSTANTS
 const DIE = range(6, 1);
 const DICE = [DIE, DIE, DIE, DIE];
 const SAMPLE_SPACE = sampleSpace(DICE);
 
-const breads = [];
-
-const flour = [32, 16, 10, 2].flatMap((num, grade) =>
-  range(num).map((_, index) => ({
-    name: "Flour",
-    desc: `grade ${grade + 1}`,
-    vp: (10 * fib(grade + 1) + (index % 3 * 5)) + "pt",
-  }))
+const flour = [32, 16, 10, 2].flatMap((num, group) =>
+  range(num).map((_, index) => {
+    const grade = group + 1;
+    return {
+      name: "Grain",
+      group: grade,
+      backName: "Flour",
+      points: 5 * fib(grade),
+      vp: (10 * fib(grade) + (index % 3 * 5)) + "pt",
+    };
+  })
 );
 
 const fallowCopy = `
@@ -28,7 +39,6 @@ const millet = [
     name: "MILLET",
     fallowCopy,
     desc: "at least one 1",
-    buy: true,
     group: 1,
     payout: 1,
     fallow: 6,
@@ -37,7 +47,6 @@ const millet = [
     name: "MILLET",
     fallowCopy,
     desc: "at least one 2",
-    buy: true,
     group: 1,
     payout: 1,
     fallow: 5,
@@ -46,7 +55,6 @@ const millet = [
     name: "MILLET",
     fallowCopy,
     desc: "at least one 3",
-    buy: true,
     group: 1,
     payout: 1,
     fallow: 4,
@@ -55,7 +63,6 @@ const millet = [
     name: "MILLET",
     fallowCopy,
     desc: "at least one 4",
-    buy: true,
     group: 1,
     payout: 1,
     fallow: 3,
@@ -64,7 +71,6 @@ const millet = [
     name: "MILLET",
     fallowCopy,
     desc: "at least one 5",
-    buy: true,
     group: 1,
     payout: 1,
     fallow: 2,
@@ -73,7 +79,6 @@ const millet = [
     name: "MILLET",
     fallowCopy,
     desc: "at least one 6",
-    buy: true,
     group: 1,
     payout: 1,
     fallow: 1,
@@ -83,91 +88,91 @@ const millet = [
 const windmill = [
   {
     name: "WINDMILL",
-    cost: "2/5/8",
+    cost: "$2/5/8",
     desc: "black die is 1 or 2",
     payout: "mill 1 flour",
   },
   {
     name: "WINDMILL",
-    cost: "2/5/8",
+    cost: "$2/5/8",
     desc: "black die is 1 or 3",
     payout: "mill 1 flour",
   },
   {
     name: "WINDMILL",
-    cost: "2/5/8",
+    cost: "$2/5/8",
     desc: "black die is 1 or 4",
     payout: "mill 1 flour",
   },
   {
     name: "WINDMILL",
-    cost: "2/5/8",
+    cost: "$2/5/8",
     desc: "black die is 1 or 5",
     payout: "mill 1 flour",
   },
   {
     name: "WINDMILL",
-    cost: "2/5/8",
+    cost: "$2/5/8",
     desc: "black die is 1 or 6",
     payout: "mill 1 flour",
   },
   {
     name: "WINDMILL",
-    cost: "2/5/8",
+    cost: "$2/5/8",
     desc: "black die is 2 or 3",
     payout: "mill 1 flour",
   },
   {
     name: "WINDMILL",
-    cost: "2/5/8",
+    cost: "$2/5/8",
     desc: "black die is 2 or 4",
     payout: "mill 1 flour",
   },
   {
     name: "WINDMILL",
-    cost: "2/5/8",
+    cost: "$2/5/8",
     desc: "black die is 2 or 5",
     payout: "mill 1 flour",
   },
   {
     name: "WINDMILL",
-    cost: "2/5/8",
+    cost: "$2/5/8",
     desc: "black die is 2 or 6",
     payout: "mill 1 flour",
   },
   {
     name: "WINDMILL",
-    cost: "2/5/8",
+    cost: "$2/5/8",
     desc: "black die is 3 or 4",
     payout: "mill 1 flour",
   },
   {
     name: "WINDMILL",
-    cost: "2/5/8",
+    cost: "$2/5/8",
     desc: "black die is 3 or 5",
     payout: "mill 1 flour",
   },
   {
     name: "WINDMILL",
-    cost: "2/5/8",
+    cost: "$2/5/8",
     desc: "black die is 3 or 6",
     payout: "mill 1 flour",
   },
   {
     name: "WINDMILL",
-    cost: "2/5/8",
+    cost: "$2/5/8",
     desc: "black die is 4 or 5",
     payout: "mill 1 flour",
   },
   {
     name: "WINDMILL",
-    cost: "2/5/8",
+    cost: "$2/5/8",
     desc: "black die is 4 or 6",
     payout: "mill 1 flour",
   },
   {
     name: "WINDMILL",
-    cost: "2/5/8",
+    cost: "$2/5/8",
     desc: "black die is 5 or 6",
     payout: "mill 1 flour",
   },
@@ -176,37 +181,37 @@ const windmill = [
 const silos = [
   {
     name: "SILO",
-    cost: "1/2/4",
+    cost: "$1/2/4",
     desc: "black die 1",
     payout: "store up to 3 overflow grain",
   },
   {
     name: "SILO",
-    cost: "1/2/4",
+    cost: "$1/2/4",
     desc: "black die 2",
     payout: "store up to 3 overflow grain",
   },
   {
     name: "SILO",
-    cost: "1/2/4",
+    cost: "$1/2/4",
     desc: "black die 3",
     payout: "store up to 3 overflow grain",
   },
   {
     name: "SILO",
-    cost: "1/2/4",
+    cost: "$1/2/4",
     desc: "black die 4",
     payout: "store up to 3 overflow grain",
   },
   {
     name: "SILO",
-    cost: "1/2/4",
+    cost: "$1/2/4",
     desc: "black die 5",
     payout: "store up to 3 overflow grain",
   },
   {
     name: "SILO",
-    cost: "1/2/4",
+    cost: "$1/2/4",
     desc: "black die 6",
     payout: "store up to 3 overflow grain",
   },
@@ -215,37 +220,37 @@ const silos = [
 const cropRotation = [
   {
     name: "CROP ROTATION",
-    cost: "1/2/4",
+    cost: "$1/2/4",
     desc: "black die 1",
     payout: "unfallow 2 fields",
   },
   {
     name: "CROP ROTATION",
-    cost: "1/2/4",
+    cost: "$1/2/4",
     desc: "black die 2",
     payout: "unfallow 2 fields",
   },
   {
     name: "CROP ROTATION",
-    cost: "1/2/4",
+    cost: "$1/2/4",
     desc: "black die 3",
     payout: "unfallow 2 fields",
   },
   {
     name: "CROP ROTATION",
-    cost: "1/2/4",
+    cost: "$1/2/4",
     desc: "black die 4",
     payout: "unfallow 2 fields",
   },
   {
     name: "CROP ROTATION",
-    cost: "1/2/4",
+    cost: "$1/2/4",
     desc: "black die 5",
     payout: "unfallow 2 fields",
   },
   {
     name: "CROP ROTATION",
-    cost: "1/2/4",
+    cost: "$1/2/4",
     desc: "black die 6",
     payout: "unfallow 2 fields",
   },
@@ -254,80 +259,67 @@ const cropRotation = [
 const data = [
   {
     name: "WHEAT",
-    buy: true,
     desc: "exactly 2 of a kind",
     fn: (xs) => dedupe(xs).length === 3,
   },
   {
     name: "BUCKWHEAT",
-    buy: true,
     desc: "run of 3",
     fn: ([w, x, y, z]) => (x + 1 === y) && (w + 1 === x || y + 1 === z),
   },
   {
     name: "SPELT",
-    buy: true,
     desc: "any 2 add to 7",
     fn: (xs) => combos(xs, 2).map(sum).some((num) => num === 7),
   },
   {
     name: "OATS",
-    buy: true,
     desc: "w + x = y + z",
     fn: ([w, x, y, z]) => w + x === y + z || w + y === x + z || w + z === x + y,
   },
   {
     name: "BARLEY",
-    buy: true,
     desc: "all dice > 2",
     fn: (xs) => xs.every((x) => x > 2),
   },
   {
     name: "TEFF",
-    buy: true,
     desc: "no die is 1 larger than another",
     fn: ([w, x, y, z]) => !(x + 1 === y || w + 1 === x || y + 1 === z),
   },
   {
     name: "RYE",
-    buy: true,
     desc: "any 3 add to 10 or 11",
     fn: (xs) => combos(xs, 3).map(sum).some((x) => x === 10 || x === 11),
   },
   {
     name: "QUINOA",
-    buy: true,
     desc: "all different",
     fn: (xs) => dedupe(xs).length === xs.length,
   },
   {
     name: "SORGHUM",
-    buy: true,
     desc: "3 of a kind",
     fn: (xs) => dedupe(xs).length <= 2,
   },
   {
     name: "KHORASAN",
-    buy: true,
     desc: "4 of a kind or 2 sets of 2 of a kind",
     fn: (xs) => dedupe(xs).length < 3,
   },
   {
     name: "FARROW",
-    buy: true,
     desc: "max - min ≤ 3",
     fn: ([w, x, y, z]) => z - w <= 3,
   },
-  { name: "AMARANTH", buy: true, desc: "no 6s", fn: (xs) => !xs.includes(6) },
+  { name: "AMARANTH", desc: "no 6s", fn: (xs) => !xs.includes(6) },
   {
     name: "FONIO",
-    buy: true,
     desc: "any 3 are even",
     fn: (xs) => combos(xs, 3).some((ys) => ys.every((x) => x % 2 === 0)),
   },
   {
     name: "TRITICALE",
-    buy: true,
     desc: "equal number of odd and evens",
     fn: (xs) =>
       xs.filter((x) => x % 2 === 0).length ===
@@ -335,25 +327,21 @@ const data = [
   },
   {
     name: "BULGUR",
-    buy: true,
     desc: "any 3 are odd",
     fn: (xs) => combos(xs, 3).some((ys) => ys.every((x) => x % 2 === 1)),
   },
   {
     name: "WILD RICE",
-    buy: true,
     desc: "max - min ≥ 4",
     fn: ([w, x, y, z]) => z - w >= 4,
   },
   {
     name: "EINKORN",
-    buy: true,
     desc: "any 3 add to ≤ 8",
     fn: ([w, x, y, _]) => w + x + y <= 8,
   },
   {
     name: "DURUM",
-    buy: true,
     desc: "any 2 add to ≥ 10",
     fn: ([w, x, y, z]) => y + z >= 10,
   },
@@ -381,7 +369,7 @@ function print() {
         group: grade,
         points: grade * 10,
         fallow: (index % 6) + 1,
-        cost: row.cost,
+        cost: "$" + row.cost,
       };
     });
 
@@ -391,7 +379,7 @@ function print() {
   Deno.writeTextFileSync("publish/grains.html", toHtml("grain", grains));
   Deno.writeTextFileSync(
     "publish/windmills.html",
-    toHtml("windmills", windmill, { height: "7.5rem", cols: 2 }),
+    toHtml("windmills", windmill, { height: "7.5rem", cols: 2, noBack: true }),
   );
   Deno.writeTextFileSync(
     "publish/flour.html",
@@ -418,17 +406,17 @@ function numToDie(num) {
 }
 
 function cardFront(
-  { group, fallowCopy, fallow, cost, name, payout, desc, buy, points },
+  { group, fallowCopy, fallow, cost, name, payout, desc, points },
 ) {
   return `<div class="card card-front">
     <h2><span class="small">${
     points ? points + "pt" : ""
-  }</span> ${name} <span class="small">${cost ? `$${cost}` : ""}</span></h2>
-    <div class="desc">${desc} ${
+  }</span> ${name} <span class="small">${cost ? cost : ""}</span></h2>
+    <div class="desc">${desc ? desc : ""} ${
     payout ? `→ ${typeof payout === "number" ? "$" + payout : payout}` : ""
   }</div>
     <div class="group">
-      <div>${buy ? "grade " + group : ""}</div>
+      <div>${group ? "grade " + group : ""}</div>
       ${
     fallow
       ? `<div class="fallow">${fallowCopy ?? "fallow"} ${
@@ -441,10 +429,11 @@ function cardFront(
 }
 
 function cardBack(
-  { group, fallow, cost, name, payout, desc, buy, vp, points },
+  { group, fallow, cost, name, backName, payout, desc, vp, points },
 ) {
   return `<div class="card card-back">
-    ${vp ? `<div class="desc">${vp}</div>` : ""}
+    ${backName ? `<h2><span></span>${backName}<span></span></h2>` : ""}
+    ${vp ? `<div class="desc">${vp}</div> <div></div>` : ""}
     ${
     fallow
       ? `<h2>
@@ -464,6 +453,7 @@ function cardBack(
 function toHtml(title, data, opts = {}) {
   const cols = opts.cols ?? 3;
   const height = opts.height ?? "10rem";
+  const noBack = opts.noBack ?? false;
   return (`
     <!DOCTYPE html>
     <html lang="en">
@@ -489,7 +479,7 @@ function toHtml(title, data, opts = {}) {
           display: flex;
           flex-direction: column;
           justify-content: space-between;
-          outline: 1px dashed black;
+          outline: 1px dashed #ccc;
           padding: 0.75rem 0.5rem 0 0.5rem;
           box-sizing: border-box;
           width: calc(100vw / ${cols});
@@ -513,7 +503,11 @@ function toHtml(title, data, opts = {}) {
     </head>
     <body>
     <div class="page page-front">${data.map(cardFront).join("")}</div>
-    <div class="page page-back">${data.map(cardBack).join("")}</div>
+    ${
+    noBack
+      ? ""
+      : `<div class="page page-back">${data.map(cardBack).join("")}</div>`
+  }
     </body>
     </html>
   `.trim());

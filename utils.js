@@ -43,3 +43,7 @@ export function fib(n) {
   }
   return arr.at(n);
 }
+
+export function roundTo(n, x) {
+  return Math.floor(n / x) * x;
+}
