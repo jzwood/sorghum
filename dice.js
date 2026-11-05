@@ -18,7 +18,7 @@ const flour = [32, 16, 10, 2].flatMap((num, group) =>
     const grade = group + 1;
     return {
       name: "Grain",
-      group: grade,
+      desc: `GRADE ${grade}`,
       backName: "Flour",
       points: 5 * fib(grade),
       vp: (10 * fib(grade) + (index % 3 * 5)) + "pt",
@@ -26,13 +26,14 @@ const flour = [32, 16, 10, 2].flatMap((num, group) =>
   })
 );
 
-const fallowCopy = `
-<div style="display: flex; flex-direction: column;">
-  <span>fallow</span>
-  <span style="font-size: 0.75rem">(≥ 4 fields)</span>
-</div>
+const fallowCopy = footnote("fallow", "(≥ 4 fields)");
 
-`;
+function footnote(content, note) {
+  return `<div style="display: flex; flex-direction: column;">
+    <span>${content}</span>
+    <span class="tiny">${note}</span>
+  </div>`;
+}
 
 const millet = [
   {
@@ -89,92 +90,92 @@ const windmill = [
   {
     name: "WINDMILL",
     cost: "$2/5/8",
-    desc: "black die is 1 or 2",
-    payout: "mill 1 flour",
+    desc: "mill die is 1 or 2",
+    payout: "mill 1 grain",
   },
   {
     name: "WINDMILL",
     cost: "$2/5/8",
-    desc: "black die is 1 or 3",
-    payout: "mill 1 flour",
+    desc: "mill die is 1 or 3",
+    payout: "mill 1 grain",
   },
   {
     name: "WINDMILL",
     cost: "$2/5/8",
-    desc: "black die is 1 or 4",
-    payout: "mill 1 flour",
+    desc: "mill die is 1 or 4",
+    payout: "mill 1 grain",
   },
   {
     name: "WINDMILL",
     cost: "$2/5/8",
-    desc: "black die is 1 or 5",
-    payout: "mill 1 flour",
+    desc: "mill die is 1 or 5",
+    payout: "mill 1 grain",
   },
   {
     name: "WINDMILL",
     cost: "$2/5/8",
-    desc: "black die is 1 or 6",
-    payout: "mill 1 flour",
+    desc: "mill die is 1 or 6",
+    payout: "mill 1 grain",
   },
   {
     name: "WINDMILL",
     cost: "$2/5/8",
-    desc: "black die is 2 or 3",
-    payout: "mill 1 flour",
+    desc: "mill die is 2 or 3",
+    payout: "mill 1 grain",
   },
   {
     name: "WINDMILL",
     cost: "$2/5/8",
-    desc: "black die is 2 or 4",
-    payout: "mill 1 flour",
+    desc: "mill die is 2 or 4",
+    payout: "mill 1 grain",
   },
   {
     name: "WINDMILL",
     cost: "$2/5/8",
-    desc: "black die is 2 or 5",
-    payout: "mill 1 flour",
+    desc: "mill die is 2 or 5",
+    payout: "mill 1 grain",
   },
   {
     name: "WINDMILL",
     cost: "$2/5/8",
-    desc: "black die is 2 or 6",
-    payout: "mill 1 flour",
+    desc: "mill die is 2 or 6",
+    payout: "mill 1 grain",
   },
   {
     name: "WINDMILL",
     cost: "$2/5/8",
-    desc: "black die is 3 or 4",
-    payout: "mill 1 flour",
+    desc: "mill die is 3 or 4",
+    payout: "mill 1 grain",
   },
   {
     name: "WINDMILL",
     cost: "$2/5/8",
-    desc: "black die is 3 or 5",
-    payout: "mill 1 flour",
+    desc: "mill die is 3 or 5",
+    payout: "mill 1 grain",
   },
   {
     name: "WINDMILL",
     cost: "$2/5/8",
-    desc: "black die is 3 or 6",
-    payout: "mill 1 flour",
+    desc: "mill die is 3 or 6",
+    payout: "mill 1 grain",
   },
   {
     name: "WINDMILL",
     cost: "$2/5/8",
-    desc: "black die is 4 or 5",
-    payout: "mill 1 flour",
+    desc: "mill die is 4 or 5",
+    payout: "mill 1 grain",
   },
   {
     name: "WINDMILL",
     cost: "$2/5/8",
-    desc: "black die is 4 or 6",
-    payout: "mill 1 flour",
+    desc: "mill die is 4 or 6",
+    payout: "mill 1 grain",
   },
   {
     name: "WINDMILL",
     cost: "$2/5/8",
-    desc: "black die is 5 or 6",
-    payout: "mill 1 flour",
+    desc: "mill die is 5 or 6",
+    payout: "mill 1 grain",
   },
 ];
 
@@ -182,37 +183,37 @@ const silos = [
   {
     name: "SILO",
     cost: "$1/2/4",
-    desc: "black die 1",
+    desc: "mill die 1",
     payout: "store ≤ 3 grain",
   },
   {
     name: "SILO",
     cost: "$1/2/4",
-    desc: "black die 2",
+    desc: "mill die 2",
     payout: "store ≤ 3 grain",
   },
   {
     name: "SILO",
     cost: "$1/2/4",
-    desc: "black die 3",
+    desc: "mill die 3",
     payout: "store ≤ 3 grain",
   },
   {
     name: "SILO",
     cost: "$1/2/4",
-    desc: "black die 4",
+    desc: "mill die 4",
     payout: "store ≤ 3 grain",
   },
   {
     name: "SILO",
     cost: "$1/2/4",
-    desc: "black die 5",
+    desc: "mill die 5",
     payout: "store ≤ 3 grain",
   },
   {
     name: "SILO",
     cost: "$1/2/4",
-    desc: "black die 6",
+    desc: "mill die 6",
     payout: "store ≤ 3 grain",
   },
 ];
@@ -221,37 +222,37 @@ const cropRotation = [
   {
     name: "CROP ROTATION",
     cost: "$1/2/4",
-    desc: "black die 1",
+    desc: "mill die 1",
     payout: "unfallow 2 fields",
   },
   {
     name: "CROP ROTATION",
     cost: "$1/2/4",
-    desc: "black die 2",
+    desc: "mill die 2",
     payout: "unfallow 2 fields",
   },
   {
     name: "CROP ROTATION",
     cost: "$1/2/4",
-    desc: "black die 3",
+    desc: "mill die 3",
     payout: "unfallow 2 fields",
   },
   {
     name: "CROP ROTATION",
     cost: "$1/2/4",
-    desc: "black die 4",
+    desc: "mill die 4",
     payout: "unfallow 2 fields",
   },
   {
     name: "CROP ROTATION",
     cost: "$1/2/4",
-    desc: "black die 5",
+    desc: "mill die 5",
     payout: "unfallow 2 fields",
   },
   {
     name: "CROP ROTATION",
     cost: "$1/2/4",
-    desc: "black die 6",
+    desc: "mill die 6",
     payout: "unfallow 2 fields",
   },
 ];
@@ -412,11 +413,13 @@ function cardFront(
     <h2><span class="small">${
     points ? points + "pt" : ""
   }</span> ${name} <span class="small">${cost ? cost : ""}</span></h2>
-    <div class="desc">${desc ? desc : ""} ${
-    payout ? `→ ${typeof payout === "number" ? "$" + payout : payout}` : ""
-  }</div>
+    <div class="desc">${desc ? desc : ""} </div>
     <div class="group">
-      <div>${group ? "grade " + group : ""}</div>
+      <div>
+        ${payout ? typeof payout === "number" ? "$" + payout : payout : ""}
+        ${payout && group ? " + " : ""}
+        ${group ? `<span style="white-space: nowrap;">grade ${group}</span>` : ""}
+      </div>
       ${
     fallow
       ? `<div class="fallow">${fallowCopy ?? "fallow"} ${
@@ -432,8 +435,15 @@ function cardBack(
   { group, fallow, cost, name, backName, payout, desc, vp, points },
 ) {
   return `<div class="card card-back">
-    ${backName ? `<h2><span></span>${backName}<span></span></h2>` : ""}
-    ${vp ? `<div class="desc">${vp}</div> <div></div>` : ""}
+    ${
+    backName
+      ? `<h2>
+        ${vp ? `<div class="small">${vp}</div>` : "<span></span>"}
+        ${backName}
+        <span></span>
+      </h2>`
+      : ""
+  }
     ${
     fallow
       ? `<h2>
@@ -463,6 +473,7 @@ function toHtml(title, data, opts = {}) {
        * { margin: 0; padding: 0; border: 0; }
        .flex-grow { flex-grow: 1; }
        .small { font-size: 1rem; font-weight: normal; color: gray; }
+       .tiny { font-size: 0.75rem; }
        h2 {
           display: flex;
           align-items: center;
