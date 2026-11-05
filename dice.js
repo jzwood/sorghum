@@ -367,14 +367,14 @@ function print() {
       const grade = Math.floor(index / 4) + 1;
       return {
         ...row,
-        group: grade,
+        group: row.payout,
         points: grade * 10,
         fallow: (index % 6) + 1,
         cost: "$" + row.cost,
       };
     });
 
-  console.table(grains, ["points", "cost", "name", "prob", "payout", "desc"]);
+  console.table(grains, ["points", "cost", "name", "prob", "group", "desc"]);
 
   Deno.writeTextFileSync("publish/millet.html", toHtml("millet", millet));
   Deno.writeTextFileSync("publish/grains.html", toHtml("grain", grains));
@@ -418,7 +418,9 @@ function cardFront(
       <div>
         ${payout ? typeof payout === "number" ? "$" + payout : payout : ""}
         ${payout && group ? " + " : ""}
-        ${group ? `<span style="white-space: nowrap;">grade ${group}</span>` : ""}
+        ${
+    group ? `<span style="white-space: nowrap;">grade ${group}</span>` : ""
+  }
       </div>
       ${
     fallow
