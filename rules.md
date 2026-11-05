@@ -19,7 +19,7 @@ At the end of the game the player with the most victory points wins.
 - X windmill cards
 - 3 white D6s
 - 1 black D6
-- pennies (any small token can stand in for money)
+- pennies (or any other money stand-in tokens)
 
 ### Board
 

@@ -308,7 +308,7 @@ const data = [
     fn: (xs) => dedupe(xs).length < 3,
   },
   {
-    name: "FARROW",
+    name: "FARRO",
     desc: "max - min ≤ 3",
     fn: ([w, x, y, z]) => z - w <= 3,
   },
