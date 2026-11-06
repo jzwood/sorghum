@@ -1,72 +1,49 @@
-# Title
+# Sorghum
 
-Sorghum
+You never intended to be humble millet farmer forever. You have dreams. Millet
+may have been good enough for Pops, but not for you. You're expanding the
+operation: spelt, durum, khorasan. Some windmills recently came onto the market,
+and you've half a mind to mill your own flour. And why shouldn't you?
 
-# Story
+Unfortunately, your competition has the same ideas and there's only so much
+farmland to go around.
 
-You don't plan on staying a humble millet farmer forever. You have big dreams:
-spelt, duram, khorasan. Maybe you'll buy a windmill and make your own flour?
-That sounds nice. Unfortunately your competition all have the same idea and
-there's only so much farmland to go around.
+## How to Win
 
-# How to Win
-
-Purchase grain fields and windmills, produce then mill grain into flour. Fields,
+Purchase grain fields and windmills. Produce then mill grain into flour. Fields,
 grain, and flour all get you points. Once all grain fields have been purchased,
-the player with the most victory points wins.
+the game ends and the player with the most victory points wins.
 
-# Setup
+## Setup
 
 ### Pieces
 
-- X millet cards
-- X grain cards
-- X windmill cards
+- 6 millet cards
+- 18 grain cards
+- 15 windmill cards
 - 3 white D6s
-- 1 black D6 (mill die)
-- pennies (or anything else you want to use for game money)
+- 1 black D6 (the mill die)
+- pile of pennies (or whatever you want for in game money)
 
 ### Board
 
-1. Arrange grain cards face up in 4 rows, lowest grade on the bottom, highest
-   grade on the top:
-
-```
-grade 4 fields: [] []
-grade 3 fields: [] [] []
-grade 2 fields: [] [] [] [] []
-grade 1 fields: [] [] [] [] [] [] [] []
-```
-
-2. Arrange grain cards in 4 piles by grade, grain side up.
-
-```
-grade 4 grain: []
-grade 3 grain: []
-grade 2 grain: []
-grade 1 grain: []
-```
-
+1. Arrange grain cards face up, ordered by price (i.e. $ amount in top right
+   corner).
+2. To the side, arrange grain cards in 4 piles by grade, grain side up.
 3. Shuffle windmills in a single pile, face up.
-
-```
-windmills: []
-```
-
 4. deal each player a random millet card. Put the remaining millet fields away.
 
-# Rules
+## Rules
 
-1. Highest D6 roll goes first.
-2. Turns consist of 4 phases performed sequentially: Buy, Harvest, Mill,
-   (Un)Fallow. The Buy phase is only available to the active player but the
-   Harvest, Mill, and (Un)Fallow phases apply to everyone and may be performed
-   concurrently.
+Turns consist of 4 phases performed sequentially: Buy, Harvest, Mill, Crop
+Rotation. The Buy phase is only available to the active player but the Harvest,
+Mill, and Crop Rotation phases apply to everyone and may be performed
+concurrently.
 
 ### Buy:
 
 During the buy phase the active player may either purchase 1 grain card or 1
-windmill. Grain cards have a flat cost next to their title, e.g. `SPELT ($1)`.
+windmill. Grain cards have a flat cost next to their title, e.g. `SPELT $1`.
 Windmills have a progressive cost: the 1st cost $2, the 2nd cost $5, and the 3rd
 cost $8. You may not buy more than 3 windmills.
 
@@ -75,27 +52,28 @@ cost $8. You may not buy more than 3 windmills.
 The active player rolls all four D6s. All players resolve harvest actions for
 their purchased fields. For each non-fallow field, check to see if the condition
 on the field matches the 4 dice. If so, gain the money from the bank indicated
-on the card. If the field does not already have a partially-tucked grain card,
-partially-tuck a grain card with the indicated grade behind the field card.
+on the card. If the field does not already have a half-tucked grain card,
+half-tuck a grain card with the indicated grade behind the field card.
 
 ### Mill:
 
 If the black die (aka the Mill Die) matches any player's purchased windmill,
-that player may move any 1 partially-tucked grain from one of their fields to
-the corresponding windmill.
+that player may move any 1 half-tucked grain from one of their fields to the
+corresponding windmill.
 
-### (Un)Fallow:
+### Crop Rotation:
 
-For each field, for every player, if any of the four D6 matches the fallow/unfallow condition, flip the
-field card over.
+All players check each field of their fields, if any of the four D6 matches the
+fallow or unfallow condition, flip the field card over.
 
-# End of Game
+## End of Game
 
 Once every field has been purchased the game ends.
 
-# Scoring
+## Scoring
+
 1. Flour: Turn over and sum all flour card points.
-2. Grain: Sum all partially-tucked grain card points.
+2. Grain: Sum all half-tucked grain card points.
 3. Fields: Sum all field points.
 
 The player with the most victory points wins.
@@ -136,7 +114,8 @@ Any 2 dice can be summed to make 7.
 
 > w + x = y + z
 
-You can group dice into 2 groups of 2 such that the sum of the pips of each group is the same.
+You can group dice into 2 groups of 2 such that the sum of the pips of each
+group is the same.
 
 ✅ 3, 4, 5, 6
 
@@ -166,7 +145,7 @@ No die is exactly 1 pip bigger or smaller than any other.
 
 > any 3 add to 10 or 11
 
-The sum of any 3 dice is 10 or 11
+The sum of any 3 dice is 10 or 11.
 
 ✅ 1, 3, 5, 6
 
@@ -176,7 +155,7 @@ The sum of any 3 dice is 10 or 11
 
 > all different
 
-No 2 dice are the same
+No 2 dice are the same.
 
 ✅ 1, 2, 4, 6
 
@@ -196,7 +175,8 @@ No 2 dice are the same
 
 > 4 of a kind or 2 sets of 2 of a kind
 
-4 dice must have the same number of pips OR 2 groups of two must have have the same number of pipe.
+4 dice must have the same number of pips OR 2 groups of two must have have the
+same number of pipe.
 
 ✅ 6, 6, 6, 6
 
@@ -204,41 +184,82 @@ No 2 dice are the same
 
 ❌ 1, 1, 1, 2
 
+#### FARRO
 
-    name: "FARRO",
-    desc: "max - min ≤ 3",
-    fn: ([w, x, y, z]) => z - w <= 3,
-  },
-  { name: "AMARANTH", desc: "no 6s", fn: (xs) => !xs.includes(6) },
-  {
-    name: "FONIO",
-    desc: "any 3 are even",
-    fn: (xs) => combos(xs, 3).some((ys) => ys.every((x) => x % 2 === 0)),
-  },
-  {
-    name: "TRITICALE",
-    desc: "equal number of odd and evens",
-    fn: (xs) =>
-      xs.filter((x) => x % 2 === 0).length ===
-        xs.filter((x) => x % 2 === 1).length,
-  },
-  {
-    name: "BULGUR",
-    desc: "any 3 are odd",
-    fn: (xs) => combos(xs, 3).some((ys) => ys.every((x) => x % 2 === 1)),
-  },
-  {
-    name: "WILD RICE",
-    desc: "max - min ≥ 4",
-    fn: ([w, x, y, z]) => z - w >= 4,
-  },
-  {
-    name: "EINKORN",
-    desc: "any 3 add to ≤ 8",
-    fn: ([w, x, y, _]) => w + x + y <= 8,
-  },
-  {
-    name: "DURUM",
-    desc: "any 2 add to ≥ 10",
-    fn: ([w, x, y, z]) => y + z >= 10,
-  },
+> max - min ≤ 3
+
+The difference between the largest die and the smallest must be 3 or less.
+
+✅ 2, 2, 4, 5
+
+❌ 1, 1, 4, 5
+
+#### AMARANTH
+
+> no 6s
+
+None of the dice are 6.
+
+✅ 3, 3, 4, 5
+
+❌ 1, 2, 4, 6
+
+#### FONIO
+
+> any 3 are even
+
+There are 3 or more dice with an even number of pips.
+
+✅ 3, 4, 4, 6
+
+❌ 1, 2, 4, 5
+
+#### TRITICALE
+
+> equal number of odd and evens
+
+There are 2 dice with even number of pips and 2 dice with odd number of pips.
+
+✅ 3, 2, 4, 5
+
+❌ 1, 1, 3, 4
+
+#### BULGUR
+
+> any 3 are odd
+
+There are 3 or more dice with an odd number of pips.
+
+✅ 1, 1, 4, 5
+
+❌ 3, 4, 5, 6
+
+#### WILD RICE
+
+> max - min ≥ 4
+
+The difference between the largest die and the smallest must be 4 or greater.
+
+✅ 1, 1, 4, 5
+
+❌ 3, 4, 5, 6
+
+#### EINKORN
+
+> any 3 add to ≤ 8
+
+The sum of any 3 dice is 8 or less.
+
+✅ 1, 1, 4, 5
+
+❌ 3, 4, 5, 6
+
+#### DURUM
+
+> any 2 add to ≥ 10
+
+The sum of any 2 dice is 10 or greater.
+
+❌ 3, 4, 5, 6
+
+✅ 1, 1, 4, 5
