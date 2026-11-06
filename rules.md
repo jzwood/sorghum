@@ -59,24 +59,30 @@ half-tuck a grain card with the indicated grade behind the field card.
 
 If the black die (aka the Mill Die) matches any player's purchased windmill,
 that player may move any 1 half-tucked grain from one of their fields to the
-corresponding windmill.
+corresponding windmill. Windmills can amass any number of grain cards.
 
 ### Crop Rotation:
 
-All players check each field of their fields, if any of the four D6 matches the
-fallow or unfallow condition, flip the field card over.
+All players check each of their fields, if any of the four D6 matches the fallow
+or unfallow condition (see bottom right of field), flip that field card over.
 
 ## End of Game
 
-Once every field has been purchased the game ends.
+The game ends after the turn that buys the final field finishes.
 
 ## Scoring
 
-1. Flour: Turn over and sum all flour card points.
-2. Grain: Sum all half-tucked grain card points.
-3. Fields: Sum all field points.
+Points printed on each card's top left corner.
+
+- **Flour**: Turn over and sum all flour card points.
+- **Grain**: Sum all half-tucked grain card points.
+- **Field**s: Sum all field points.
 
 The player with the most victory points wins.
+
+## Acknowledgement
+
+Thank you to our patient playtesters: Sally Nichols and Steve Wood.
 
 ## Appendix
 
