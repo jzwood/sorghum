@@ -321,7 +321,7 @@ const data = [
   },
   {
     name: "TRITICALE",
-    desc: "equal number of odd and evens",
+    desc: "2 odd and 2 even dice",
     fn: (xs) =>
       xs.filter((x) => x % 2 === 0).length ===
         xs.filter((x) => x % 2 === 1).length,
@@ -417,16 +417,18 @@ function cardFront(
     <div class="group">
       <div>
         ${payout ? typeof payout === "number" ? "$" + payout : payout : ""}
-        ${payout && group ? " + " : ""}
+        ${payout && group ? "<br />" : ""}
         ${
     group ? `<span style="white-space: nowrap;">grade ${group}</span>` : ""
   }
       </div>
       ${
     fallow
-      ? `<div class="fallow">${fallowCopy ?? "fallow"} ${
-        numToDie(fallow)
-      }</div>`
+      ? `<div class="fallow">
+        <span class="fallow-text">
+          ${fallowCopy ?? "fallow"}
+        </span>
+       ${numToDie(fallow)}</div>`
       : ""
   }
     </div>
@@ -449,14 +451,16 @@ function cardBack(
     ${
     fallow
       ? `<h2>
-      <span class="small">${points ? (points - 5) + "pt" : ""}</span>
-      <span style="text-align: center;">FALLOW ${name}</span>
-      <span></span>
+        <span class="small">${points ? (points - 5) + "pt" : ""}</span>
+        <span style="text-align: center;">FALLOW ${name}</span>
+        <span></span>
       </h2>
       <div class="group">
-      <div></div>
-      <div class="fallow">unfallow ${numToDie(fallow)}</div>
-    </div>`
+        <div>&nbsp;<br />&nbsp;</div>
+        <div class="fallow">
+          <span class="fallow-text">unfallow</span>
+        ${numToDie(fallow)}</div>
+      </div>`
       : ""
   }
   </div>`;
@@ -493,7 +497,7 @@ function toHtml(title, data, opts = {}) {
           flex-direction: column;
           justify-content: space-between;
           outline: 1px dashed #ccc;
-          padding: 0.75rem 0.5rem 0 0.5rem;
+          padding: 0.75rem 0.5rem 0.5rem 0.5rem;
           box-sizing: border-box;
           width: calc(100vw / ${cols});
         }
@@ -506,11 +510,15 @@ function toHtml(title, data, opts = {}) {
           justify-content: space-between;
        }
        .fallow {
+          position: relative;
           display: flex;
           align-items: center;
           gap: 0.25rem;
         }
-       .die { font-size: 4rem; }
+        .fallow-text {
+          margin-right: 5ch;
+        }
+       .die { font-size: 4rem; position: absolute; right: 0; }
       </style>
       <title>${title}</title>
     </head>

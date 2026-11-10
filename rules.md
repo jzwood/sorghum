@@ -1,6 +1,9 @@
 # Sorghum
 
-You never intended to be humble millet farmer forever. You have dreams. Millet
+docs:
+https://docs.google.com/document/d/1TIdY9fXtIfAr3LXqhXoat56PWJMoomJqWocpEAySII0/edit?tab=t.0#heading=h.a64ly4ug960b
+
+You never intended to be a humble millet farmer forever. You have dreams. Millet
 may have been good enough for Pops, but not for you. You're expanding the
 operation: spelt, durum, khorasan. Some windmills recently came onto the market,
 and you've half a mind to mill your own flour. And why shouldn't you?
@@ -266,6 +269,6 @@ The sum of any 3 dice is 8 or less.
 
 The sum of any 2 dice is 10 or greater.
 
-❌ 3, 4, 5, 6
+✅ 3, 4, 5, 6
 
-✅ 1, 1, 4, 5
+❌ 1, 1, 4, 5
